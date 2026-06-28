@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://psifunctiondev.github.io/methodos/schemas/decision.schema.json",
+  "title": "Méthodos Decision",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["id", "type", "title", "state", "decision_type", "outcome", "decision_maker", "created", "evidence", "related_objects", "rationale"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^D-[0-9]{8}-[0-9]{3}$" },
+    "type": { "const": "Decision" },
+    "title": { "type": "string", "minLength": 1 },
+    "state": {
+      "type": "string",
+      "enum": ["Draft", "Proposed", "Final", "Superseded", "Archived"]
+    },
+    "decision_type": {
+      "type": "string",
+      "enum": ["Accept", "Reject", "Approve", "Retry", "Escalate", "Defer", "Cancel", "Archive", "Other"]
+    },
+    "outcome": { "type": "string", "minLength": 1 },
+    "decision_maker": { "type": "string", "minLength": 1 },
+    "authority": { "type": "string" },
+    "created": { "type": "string", "format": "date-time" },
+    "modified": { "type": "string", "format": "date-time" },
+    "evidence": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "related_objects": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "rationale": { "type": "string", "minLength": 1 },
+    "supersedes": { "type": ["string", "null"] },
+    "superseded_by": { "type": ["string", "null"] },
+    "required_actions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  }
+}

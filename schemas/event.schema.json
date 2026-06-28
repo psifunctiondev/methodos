@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://psifunctiondev.github.io/methodos/schemas/event.schema.json",
+  "title": "Méthodos Event",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["id", "type", "event_type", "timestamp", "source", "summary", "related_objects"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^EV-[0-9]{8}-[0-9]{3}$" },
+    "type": { "const": "Event" },
+    "event_type": { "type": "string", "minLength": 1 },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string", "minLength": 1 },
+    "related_objects": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "metadata": { "type": "object" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  }
+}

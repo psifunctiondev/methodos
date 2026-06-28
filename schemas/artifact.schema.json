@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://psifunctiondev.github.io/methodos/schemas/artifact.schema.json",
+  "title": "Méthodos Artifact",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["id", "type", "title", "artifact_type", "creator", "created", "storage_location", "related_objects"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^A-[0-9]{8}-[0-9]{3}$" },
+    "type": { "const": "Artifact" },
+    "title": { "type": "string", "minLength": 1 },
+    "artifact_type": { "type": "string", "minLength": 1 },
+    "creator": { "type": "string", "minLength": 1 },
+    "created": { "type": "string", "format": "date-time" },
+    "storage_location": { "type": "string", "minLength": 1 },
+    "content_reference": { "type": "string" },
+    "content_hash": { "type": "string" },
+    "related_objects": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "metadata": { "type": "object" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  }
+}
