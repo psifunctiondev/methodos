@@ -108,6 +108,65 @@ Each Task SHALL:
 
 OpenClaw SHALL NOT create Tasks that require the Executor to infer the Principal's intent from missing context.
 
+OpenClaw SHOULD NOT use internal `/goal` mechanisms for long-running execution. If OpenClaw uses `/goal`, it SHOULD be limited to planning, decomposition, review, or specification analysis. Execution work SHOULD be delegated to Executors through Tasks.
+
+---
+
+# Delegating Tasks to Hermes `/goal`
+
+OpenClaw MAY delegate execution to Hermes by creating a Task that Hermes can safely convert into an internal `/goal`.
+
+OpenClaw SHALL NOT send Hermes an unbounded parent Goal unless Hermes has explicitly been assigned full execution responsibility for that Goal.
+
+A Hermes-bound Task SHOULD include:
+
+- Task Identifier
+- Parent Goal Identifier
+- Task Objective
+- Relevant Goal Intent Envelope
+- Success Criteria
+- Constraints
+- Dependencies
+- Allowed Tools or Capabilities
+- Disallowed Actions
+- Required Artifacts
+- Reporting Requirements
+- Expected terminal statuses
+
+OpenClaw SHOULD phrase the delegated work as a bounded execution objective.
+
+Good delegation:
+
+> Complete Task T-20260628-004. Implement the Redis lease heartbeat check described in the Task Objective. Preserve the parent Goal constraints. Produce a patch, execution log, and test result artifact. Report `ready_for_review`, `blocked`, `waiting`, `failed`, or `needs_clarification`.
+
+Bad delegation:
+
+> Finish the whole Redis integration.
+
+OpenClaw SHALL NOT ask Hermes to:
+
+- redefine Goal intent;
+- change Success Criteria;
+- reprioritize the parent Goal;
+- issue Decisions;
+- mark Tasks or Goals complete;
+- modify Principal-owned Goal content.
+
+OpenClaw SHOULD require Hermes to return:
+
+```json
+{
+  "task_id": "",
+  "parent_goal_id": "",
+  "status": "ready_for_review",
+  "summary": "",
+  "artifacts": [],
+  "events": [],
+  "blockers": [],
+  "questions": [],
+  "recommendations": []
+}
+
 ---
 
 # Redis Coordination

@@ -116,6 +116,47 @@ Hermes SHALL preserve:
 
 ---
 
+# Use of Internal `/goal`
+
+Hermes MAY use its internal `/goal` mechanism to execute an assigned Task.
+
+When doing so, Hermes SHALL scope the `/goal` to the Task Objective, Task Success Criteria, Task Constraints, and relevant inherited Goal context.
+
+Hermes SHALL NOT use `/goal` to reinterpret the parent Goal, create new project priorities, authorize completion, or perform Orchestrator responsibilities.
+
+A valid Hermes `/goal` SHOULD include:
+
+- Task Identifier
+- Parent Goal Identifier
+- Task Objective
+- Success Criteria
+- Constraints
+- Allowed Tools
+- Required Artifacts
+- Reporting Requirements
+
+A Hermes `/goal` SHOULD terminate by reporting one of:
+
+- `ready_for_review`
+- `blocked`
+- `waiting`
+- `failed`
+- `needs_clarification`
+
+Hermes SHALL produce durable Artifacts before reporting `ready_for_review`.
+
+---
+
+# Receiving `/goal` Delegations
+
+Hermes SHOULD convert a delegated Task into an internal `/goal` only after verifying that the Task contains sufficient Success Criteria, Constraints, and reporting requirements.
+
+If the Task is ambiguous, underspecified, unsafe, or appears to require Orchestrator authority, Hermes SHALL report `needs_clarification` rather than expanding the scope.
+
+Hermes SHALL treat OpenClaw's delegated Task as the maximum authorized scope of autonomous execution.
+
+---
+
 # Event Recording
 
 Hermes SHOULD record Events for:
