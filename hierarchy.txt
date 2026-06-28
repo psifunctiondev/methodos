@@ -1,0 +1,26 @@
+methodos/
+├── README.md
+├── LICENSE
+├── CHANGELOG.md
+├── ROADMAP.md
+├── specification/
+│   ├── MTH-000-Vision-and-Scope.md
+│   ├── MTH-001-Charter.md
+│   ├── MTH-002-Terminology.md
+│   ├── MTH-003-Architecture.md
+│   ├── MTH-004-Design-Principles.md
+│   └── MTH-005-Object-Model.md
+├── reference/
+│   ├── openclaw/
+│   ├── hermes/
+│   ├── redis/
+│   ├── obsidian/
+│   └── litellm/
+├── schemas/
+├── diagrams/
+│   ├── state-machines/
+│   ├── sequence/
+│   └── topology/
+├── templates/
+├── examples/
+└── notes/
