@@ -48,6 +48,7 @@ The Principal SHALL:
 * establish Priorities
 * review outcomes
 * approve changes to Goal intent
+* maintain Principal-owned portions of Goal representations
 
 ---
 
@@ -62,6 +63,10 @@ The Principal MAY:
 * delegate operational authority
 
 Delegation SHALL NOT transfer ownership of intent.
+
+The Principal owns the Intent Envelope.
+
+Delegation SHALL NOT transfer ownership of the Intent Envelope.
 
 ---
 

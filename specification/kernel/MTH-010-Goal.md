@@ -220,6 +220,10 @@ Tasks SHALL NOT redefine Goal intent.
 
 Changes to Goal intent SHALL be authorized by the Principal.
 
+**MTH-010-REQ-008**
+
+Every durable Goal representation SHALL define ownership domains.
+
 ---
 
 # Recommended Obsidian Representation
@@ -304,6 +308,25 @@ Future specifications will define:
 * Approval Protocol
 * Obsidian Goal Template
 * Redis Goal Indexing
+
+---
+
+# Ownership Domains
+
+A Goal SHALL define ownership domains for its durable representation.
+
+Ownership domains identify which Participants are authorized to modify specific portions of a Goal.
+
+Typical ownership domains include:
+
+- Principal-owned
+- Orchestrator-owned
+- Shared
+- System-generated
+
+Participants SHALL NOT modify content outside their ownership domain except through an explicit Protocol.
+
+Ownership domains protect Goal intent while allowing collaborative maintenance of operational state.
 
 ---
 

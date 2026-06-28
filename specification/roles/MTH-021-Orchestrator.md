@@ -50,6 +50,7 @@ The Orchestrator SHALL:
 * issue Decisions within its authority
 * monitor progress
 * update Goal state
+* maintain Orchestrator-owned portions of Goal representations
 
 ---
 
@@ -75,6 +76,7 @@ The Orchestrator SHALL NOT:
 * falsify Evidence
 * perform execution solely because execution is available
 * authorize Decisions outside its delegated authority
+* modify Principal-owned Goal content except through an authorized Protocol
 
 ---
 
@@ -120,6 +122,10 @@ The Orchestrator SHALL assemble Evidence before authorizing completion.
 **MTH-021-REQ-004**
 
 The Orchestrator SHALL maintain observable Goal state.
+
+**MTH-021-REQ-005**
+
+The Orchestrator SHALL respect Ownership Domains defined by durable Goal representations.
 
 ---
 
