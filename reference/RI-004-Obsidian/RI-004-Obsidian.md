@@ -69,7 +69,7 @@ Obsidian SHALL NOT:
 
 ---
 
-# Recommended Vault Structure
+# Recommended Dossier Structure
 
 ```text
 Goals/
@@ -135,7 +135,7 @@ OpenClaw records Decisions
 
 Goal updated
 
-All durable Objects remain discoverable through the vault.
+All durable Objects remain discoverable through the dossier.
 
 ---
 
@@ -155,7 +155,7 @@ Human edits SHOULD generate corresponding Events when appropriate.
 
 # Version Control
 
-The vault SHOULD be version controlled.
+The dossier SHOULD be version controlled.
 
 Every meaningful change SHOULD remain recoverable.
 
