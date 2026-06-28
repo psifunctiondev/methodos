@@ -93,6 +93,25 @@ Goals in `Draft` SHOULD be left untouched except for optional advisory comments.
 
 ---
 
+# Goal Intake Validation
+
+OpenClaw SHALL treat `state: Ready` as the explicit intake signal from the Principal.
+
+Before planning, OpenClaw SHALL validate that the Goal includes:
+
+- Principal
+- Objective
+- Success Criteria
+- Constraints
+- Priority
+- Acceptance Criteria
+
+If validation succeeds, OpenClaw MAY transition the Goal to `Planning`.
+
+If validation fails, OpenClaw SHALL record the deficiency, generate an Event, and return the Goal to `Draft` or mark it `Blocked`.
+
+---
+
 # Task Creation
 
 For each Goal, OpenClaw SHOULD create bounded Tasks.

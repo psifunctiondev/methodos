@@ -49,6 +49,58 @@ Implementations MAY add additional attributes.
 
 ---
 
+## Semantic Responsibilities
+
+Each canonical Méthodos Object exists to answer a single architectural question. Together, these Objects form the semantic model of the framework.
+
+| Object       | Fundamental Question                     | Primary Responsibility                                                        |
+| ------------ | ---------------------------------------- | ----------------------------------------------------------------------------- |
+| **Goal**     | *What are we trying to accomplish?*      | Defines the desired outcome and preserves the Principal's intent.             |
+| **Task**     | *What bounded work should be performed?* | Delegates executable work while preserving Goal intent.                       |
+| **Event**    | *What happened?*                         | Records significant occurrences during execution.                             |
+| **Artifact** | *What was produced?*                     | Represents durable outputs generated during execution.                        |
+| **Evidence** | *Why should we believe a claim?*         | Connects Artifacts and observations to verifiable conclusions.                |
+| **Decision** | *What has been authorized or concluded?* | Records governance decisions and establishes authoritative state transitions. |
+
+These semantic responsibilities are intentionally orthogonal.
+
+No canonical Object should assume the primary responsibility of another Object.
+
+For example:
+
+* An Artifact is not Evidence.
+* Evidence is not a Decision.
+* An Event is not a Task.
+* A Task is not a Goal.
+
+Maintaining this separation enables clear governance, traceability, and implementation independence throughout the Méthodos architecture.
+
+                    Principal
+                        │
+                        ▼
+                     Goal
+                        │
+                        ▼
+                     Task
+                        │
+                        ▼
+                  Execution
+                        │
+          ┌─────────────┼─────────────┐
+          ▼             ▼             ▼
+      Events       Artifacts      Progress
+                        │
+                        ▼
+                    Evidence
+                        │
+                        ▼
+                    Decision
+                        │
+                        ▼
+              Institutional Knowledge
+
+---
+
 # Core Objects
 
 ## Goal

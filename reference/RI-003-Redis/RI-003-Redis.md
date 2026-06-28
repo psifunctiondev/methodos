@@ -113,6 +113,22 @@ Expired leases MAY return Tasks to the ready queue.
 
 ---
 
+# Reference Lease Defaults
+
+The reference Redis implementation SHOULD use the following defaults unless overridden by local deployment policy:
+
+- Task lease duration: 15 minutes
+- Heartbeat interval: 60 seconds
+- Missed heartbeat threshold: 3
+- Requeue condition: lease expired or three consecutive missed heartbeats
+- Lease renewal: permitted while the Executor is actively progressing
+
+Executors SHOULD renew leases before expiration.
+
+Orchestrators SHOULD requeue Tasks only after reconciling against the Knowledge Repository to confirm that the Task has not already reached a terminal state.
+
+---
+
 ## Heartbeats
 
 Workers SHOULD publish heartbeats periodically.
