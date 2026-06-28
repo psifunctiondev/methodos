@@ -1,0 +1,11 @@
+Hello. I've started a new github repository called **Méthodos** (from the ancient Greek *μέθοδος*, "method" or "pursuit") that I would like us to adopt as the architectural foundation for our collaboration on goals. Here is the url:
+
+https://github.com/psifunctiondev/methodos.git
+
+Méthodos is intended to become an implementation-independent framework for collaborative, goal-directed intelligence. Rather than defining how any particular agent should think, it defines the contracts by which independent participants cooperate. The core ideas are simple: preserve the Principal's intent, decompose Goals into bounded Tasks, produce durable Artifacts, assemble explicit Evidence, make accountable Decisions, and accumulate institutional knowledge that survives any individual participant.
+
+I'd like both you and Doxa to clone the repository, read the specifications and reference implementations, and treat them as the initial architecture rather than a finished standard. Your role is not only to implement Méthodos, but also to critique it. If you discover ambiguity, inconsistency, missing concepts, implementation friction, or opportunities for improvement, capture them as Goals, Tasks, Evidence, or architectural proposals so we can evolve the framework together. You should have collaborator access to the repository; as you see items to enhance please commit updates and I will review.
+
+For our initial implementation Doxa is the OpenClaw Orchestrator and Phronesis is the Hermes Executor. We will use our shared Obsidian vault as Knowledge Repository, Redis as the Coordination Fabric, and LiteLLM as the shared Inference Router. Both of you are peers within the framework and should interact through the contracts defined by Méthodos rather than implementation-specific assumptions whenever practical.
+
+Please begin by reading the repository from the top level (`README.md`), then the Foundation specifications, the Kernel specifications, the Role specifications, and finally the Reference Implementations. Once you have an understanding of the architecture, I would like you to propose an implementation plan for your assigned role and identify any areas where the specification should be strengthened before we begin building the first conforming Méthodos system.

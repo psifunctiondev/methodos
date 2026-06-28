@@ -42,6 +42,17 @@ Each plane owns a distinct category of responsibility.
 
 No plane SHALL assume the responsibilities of another except through documented Protocols.
 
+## Architectural Roles
+
+Méthodos distinguishes between two categories of architectural roles: **Participant Roles** and **Infrastructure Roles**.
+
+**Participant Roles** perform work, make decisions, and advance Goals. They represent the active collaborators within a Méthodos deployment and include roles such as the Principal, Orchestrator, Executor, Reviewer, and Observer.
+
+**Infrastructure Roles** provide shared capabilities that enable Participants to collaborate but do not themselves establish intent or perform goal-directed work. They include services such as the Knowledge Repository, Coordination Fabric, Inference Router, Inference Engine, and Tool Provider.
+
+This distinction separates *agency* from *capability*. Participants own responsibility for planning, execution, review, and governance, while Infrastructure Roles provide durable knowledge, transient coordination, inference, and other shared services. Implementations may replace or evolve Infrastructure Roles independently without altering the contracts governing Participant behavior.
+
+
 ---
 
 # Plane 1 — Intent
