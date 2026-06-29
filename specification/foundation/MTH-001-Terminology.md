@@ -233,6 +233,26 @@ Implementations SHOULD avoid introducing synonymous terminology for existing def
 
 ---
 
+## Intent Envelope
+
+The Principal-owned semantic core of a Goal.
+
+The Intent Envelope defines the Objective, Success Criteria, Constraints, and Acceptance Criteria that must be preserved through planning, delegation, execution, review, and archival.
+
+See `MTH-011 Intent Envelope`.
+
+## Decision
+
+A durable governance Object that records an authoritative outcome.
+
+Decisions authorize or reject state transitions, approvals, completions, supersessions, and other governance-relevant conclusions.
+
+Final Decisions are immutable and may only be changed through superseding Decisions.
+
+See `MTH-016 Decision`.
+
+---
+
 # Future Directions
 
 Future revisions may define additional concepts including:
@@ -240,7 +260,6 @@ Future revisions may define additional concepts including:
 * Policy
 * Resource
 * Session
-* Decision
 * Constraint
 * Objective Metric
 * Risk

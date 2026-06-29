@@ -136,6 +136,27 @@ A conforming Coordination Fabric:
 
 ---
 
+# Lease Semantics
+
+A Coordination Fabric MAY implement Task assignment using renewable leases.
+
+A lease:
+
+* grants exclusive execution authority to one Participant;
+* has a finite lifetime;
+* MAY be renewed through periodic heartbeats;
+* expires automatically if renewal ceases.
+
+Upon lease expiration the Coordination Fabric SHALL release exclusive ownership.
+
+If the associated Task has not transitioned to a terminal state, it SHALL become eligible for reassignment according to implementation policy.
+
+Lease duration, heartbeat cadence, expiration timeout, and reassignment strategy are implementation-specific.
+
+Reference implementations MAY define recommended defaults.
+
+---
+
 # Normative Requirements
 
 **MTH-024-REQ-001**
@@ -149,6 +170,10 @@ The Coordination Fabric SHALL NOT become the authoritative source of institution
 **MTH-024-REQ-003**
 
 Participants SHALL reconcile operational state with the Knowledge Repository.
+
+**MTH-024-REQ-004**
+
+If a Coordination Fabric implements Task leasing, lease expiration SHALL release exclusive ownership of the Task and SHALL permit reassignment in accordance with the Task Protocol.
 
 ---
 
