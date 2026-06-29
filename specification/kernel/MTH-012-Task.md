@@ -1,8 +1,8 @@
 # Méthodos Specification
 
-**Identifier:** MTH-011
+**Identifier:** MTH-012
 
-**Title:** Task Object
+**Title:** Task
 
 **Version:** 0.1.0
 
@@ -10,7 +10,7 @@
 
 **Category:** Kernel
 
-**Depends Upon:** MTH-000 through MTH-010
+**Depends Upon:** MTH-000 through MTH-011
 
 ---
 
@@ -20,13 +20,13 @@ This specification defines the Task Object.
 
 A Task is the smallest unit of independently assignable work within Méthodos.
 
-Tasks preserve the Goal's intent while allowing execution to be delegated to a Participant.
+Tasks preserve the parent Goal's Intent Envelope while allowing bounded work to be delegated to a Participant.
 
 ---
 
 # Architectural Intent
 
-Represent bounded, independently executable work.
+Represent bounded, independently executable work while preserving the Intent Envelope.
 
 ---
 
@@ -34,22 +34,27 @@ Represent bounded, independently executable work.
 
 Tasks allow complex Goals to be decomposed into work that can be:
 
-* assigned,
-* executed,
-* validated,
-* resumed,
-* audited,
-* and completed
+* assigned;
+* executed;
+* paused;
+* resumed;
+* validated;
+* audited;
+* completed;
 
-without losing the Goal's original intent.
+without altering the Principal's intended outcome.
 
 ---
 
 # Definition
 
-A Task is a bounded unit of work that contributes to exactly one Goal.
+A Task is a bounded unit of work contributing to exactly one Goal.
 
-Tasks describe **what work shall be performed**, not **who performs it** nor **how it is implemented**.
+A Task specifies **what** work shall be performed.
+
+It does not specify **how** the work is performed.
+
+Execution strategy remains the responsibility of the assigned Executor.
 
 ---
 
@@ -64,22 +69,37 @@ Every Task SHALL contain:
 * Current State
 * Owner
 * Priority
+* Objective
 * Success Criteria
 * Constraints
+* Inherited Intent Context
 * Dependencies
-* Assigned Participant (optional)
 * Created Timestamp
 * Modified Timestamp
+
+A Task MAY additionally contain:
+
+* Assigned Participant
+* Artifacts
+* Evidence
+* Decisions
+* Events
+* Tags
+* Implementation-specific metadata
 
 ---
 
 # Ownership
 
-A Task SHALL have exactly one Owner.
+Every Task SHALL have exactly one Owner.
 
-Ownership MAY transfer through a documented Protocol.
+Ownership MAY transfer only through a defined Protocol.
 
-Only one Participant MAY actively own a Task at a time.
+Only one Participant MAY actively own a Task at any point in time.
+
+Assignment and ownership are distinct concepts.
+
+An assigned Task remains owned by its Owner until ownership is explicitly transferred.
 
 ---
 
@@ -89,31 +109,42 @@ Every Task SHALL belong to exactly one Goal.
 
 A Task MAY:
 
-* depend on other Tasks
-* produce Artifacts
-* produce Events
-* produce Evidence
-* reference Decisions
+* depend upon other Tasks;
+* produce Artifacts;
+* produce Events;
+* contribute Evidence;
+* reference Decisions.
 
 A Task SHALL NOT belong to multiple Goals.
 
 ---
 
+# Intent Preservation
+
+Every Task SHALL inherit the relevant Intent Envelope from its parent Goal.
+
+The inherited Intent Context SHALL include sufficient information for an Executor to perform the Task without redefining the Principal's intent.
+
+A Task SHALL NOT modify or reinterpret the parent Goal's Intent Envelope.
+
+---
+
 # Lifecycle
 
-A Task SHALL occupy exactly one of the following States:
+A Task SHALL occupy exactly one of the following canonical States:
 
 * Draft
 * Ready
-* Queued
-* Claimed
+* Assigned
 * Executing
 * Waiting
 * Blocked
-* Review
-* Complete
+* Ready for Review
+* Accepted
 * Cancelled
 * Archived
+
+Operational scheduling states (such as queues, leases, claims, or reservations) are implementation-specific and SHALL NOT be represented as canonical Task States.
 
 ---
 
@@ -123,45 +154,65 @@ A Task SHALL occupy exactly one of the following States:
 
 The Task exists but is incomplete.
 
+---
+
 ## Ready
 
-The Task is sufficiently defined for scheduling.
+The Task satisfies the required definition and is eligible for assignment.
 
-## Queued
+---
 
-The Task is available for assignment.
+## Assigned
 
-## Claimed
+Responsibility for execution has been delegated to a Participant.
 
-A Participant has accepted responsibility.
+---
 
 ## Executing
 
-Work is actively occurring.
+The assigned Participant is actively performing work.
+
+---
 
 ## Waiting
 
-Execution is paused awaiting an external condition.
+Execution is temporarily paused awaiting an external dependency or condition.
+
+---
 
 ## Blocked
 
-Execution cannot continue.
+Execution cannot proceed without intervention.
 
-## Review
+---
 
-Execution has finished and awaits acceptance.
+## Ready for Review
 
-## Complete
+Execution is complete and supporting Artifacts have been produced.
 
-Success Criteria have been satisfied.
+The Task awaits review and governance.
+
+---
+
+## Accepted
+
+The Task has been accepted following review.
+
+Required Evidence and governing Decisions exist.
+
+---
 
 ## Cancelled
 
-The Task will not be executed.
+Execution has been intentionally terminated.
+
+The Task contributes no further work toward the Goal.
+
+---
 
 ## Archived
 
-The Task is retained for historical purposes.
+The Task is retained for historical reference.
 
 ---
 
@@ -169,7 +220,7 @@ The Task is retained for historical purposes.
 
 Every Task SHALL define observable Success Criteria.
 
-Completion SHALL be determined by those criteria rather than subjective judgment.
+Task completion SHALL be determined against those Success Criteria rather than subjective judgment.
 
 ---
 
@@ -177,7 +228,7 @@ Completion SHALL be determined by those criteria rather than subjective judgment
 
 Tasks MAY depend upon other Tasks.
 
-Dependent Tasks SHALL NOT enter Executing until required dependencies have reached Complete unless explicitly authorized.
+A Task SHOULD NOT enter Executing until required dependencies have reached Accepted unless explicitly authorized.
 
 Circular dependencies SHOULD be avoided.
 
@@ -185,17 +236,17 @@ Circular dependencies SHOULD be avoided.
 
 # Constraints
 
-Tasks inherit Constraints from their parent Goal.
+Tasks inherit Constraints from the parent Goal's Intent Envelope.
 
-Tasks MAY introduce additional Constraints provided they do not contradict Goal Constraints.
+Tasks MAY introduce additional Constraints provided they do not contradict inherited Constraints.
 
 ---
 
 # Evidence
 
-A Task SHALL produce sufficient Evidence to justify entering the Complete State.
+Completion of a Task SHALL result in sufficient Evidence to support review.
 
-Completion without Evidence is non-conforming.
+Acceptance without supporting Evidence is non-conforming.
 
 ---
 
@@ -203,52 +254,52 @@ Completion without Evidence is non-conforming.
 
 The following SHALL always remain true:
 
-* Every Task has one parent Goal.
-* Every Task has one Owner.
-* Every Task has one State.
-* Every Task preserves Goal intent.
-* Every completed Task references Evidence.
+* Every Task belongs to exactly one Goal.
+* Every Task has exactly one Owner.
+* Every Task occupies exactly one canonical State.
+* Every Task preserves the parent Goal's Intent Envelope.
+* Every Accepted Task references supporting Evidence.
 
 ---
 
 # Conformance
 
-An implementation conforms to this specification if every Task:
+A conforming implementation SHALL ensure that every Task:
 
-* possesses the required properties,
-* belongs to exactly one Goal,
-* maintains a valid lifecycle,
-* preserves Goal intent,
-* produces Evidence upon completion,
-* and maintains observable ownership.
+* possesses the required properties;
+* belongs to exactly one Goal;
+* preserves the Intent Envelope;
+* follows the canonical lifecycle;
+* produces Evidence supporting acceptance;
+* maintains observable ownership and traceability.
 
 ---
 
 # Normative Requirements
 
-**MTH-011-REQ-001**
+**MTH-012-REQ-001**
 
-Every Task SHALL have exactly one parent Goal.
+Every Task SHALL belong to exactly one Goal.
 
-**MTH-011-REQ-002**
+**MTH-012-REQ-002**
 
-Every Task SHALL have exactly one current Owner.
+Every Task SHALL have exactly one Owner.
 
-**MTH-011-REQ-003**
+**MTH-012-REQ-003**
 
-Every Task SHALL occupy exactly one State.
+Every Task SHALL occupy exactly one canonical State.
 
-**MTH-011-REQ-004**
+**MTH-012-REQ-004**
 
-Tasks SHALL preserve the Intent Envelope of their parent Goal.
+Every Task SHALL preserve the inherited Intent Envelope.
 
-**MTH-011-REQ-005**
+**MTH-012-REQ-005**
 
-A Task SHALL NOT enter Complete without associated Evidence.
+A Task SHALL NOT transition to Accepted without supporting Evidence and an applicable Final Decision.
 
-**MTH-011-REQ-006**
+**MTH-012-REQ-006**
 
-Only one Participant MAY actively own a Task at any point in time.
+Operational scheduling mechanisms SHALL NOT introduce additional canonical Task States.
 
 ---
 
@@ -259,9 +310,10 @@ The following behaviors are non-conforming or discouraged:
 * Tasks without Success Criteria.
 * Tasks belonging to multiple Goals.
 * Multiple active Owners.
+* Reinterpreting the inherited Intent Envelope.
 * Completing Tasks based solely on assertion.
-* Embedding implementation-specific details that belong to the executing Participant.
-* Creating Tasks so large they cannot be independently completed or validated.
+* Embedding implementation-specific scheduling semantics into the canonical object.
+* Creating Tasks that cannot be independently reviewed or validated.
 
 ---
 
@@ -269,26 +321,28 @@ The following behaviors are non-conforming or discouraged:
 
 The Task Object is the primary contract between planning and execution.
 
-It is intentionally implementation-independent. Any conforming Participant capable of understanding the Task and satisfying its Success Criteria may execute it.
+It intentionally separates semantic work definition from operational scheduling.
 
-This separation enables interchangeable Executors, distributed execution, recovery after interruption, and independent validation.
+This distinction allows different implementations to use queues, leases, reservations, distributed schedulers, or other coordination mechanisms while preserving a stable, implementation-independent Task model.
 
 ---
 
 # Future Directions
 
-Future specifications will define:
+Future specifications may define:
 
-* Task Protocol
-* Task Assignment Protocol
-* Task State Machine
-* Task Templates
-* Dependency Resolution
+* task dependency graphs;
+* execution policies;
+* scheduling strategies;
+* lease semantics;
+* workload balancing.
+
+These behaviors are intentionally excluded from the canonical Task Object.
 
 ---
 
 # Revision History
 
-| Version | Date          | Notes             |
-| ------- | ------------- | ----------------- |
-| 0.1.0   | Initial draft | First publication |
+| Version | Date             | Notes                                                     |
+| ------- | ---------------- | --------------------------------------------------------- |
+| 0.2.0   | Initial revision | Reconciled with Intent Envelope and canonical state model |

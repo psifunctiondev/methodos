@@ -4,13 +4,13 @@
 
 **Title:** Task Protocol
 
-**Version:** 0.1.0
+**Version:** 0.2.0
 
 **Status:** Draft
 
 **Category:** Protocols
 
-**Depends Upon:** MTH-011 Task, MTH-021 Orchestrator, MTH-022 Executor, MTH-030 Goal Protocol
+**Depends Upon:** MTH-011 Intent Envelope, MTH-012 Task, MTH-016 Decision, MTH-030 Goal Protocol
 
 ---
 
@@ -18,27 +18,28 @@
 
 This specification defines the Task Protocol.
 
-The Task Protocol governs the creation, delegation, execution, review, completion, and archival of Tasks.
+The Task Protocol governs the creation, delegation, execution, review, acceptance, cancellation, and archival of Tasks.
 
-Tasks are the fundamental unit of delegation within Méthodos.
+Tasks are the primary unit of delegation within Méthodos.
 
-The Task Protocol defines how Orchestrators and Executors collaborate while preserving Goal intent and maintaining accountability.
+The protocol defines how bounded work is assigned, executed, reviewed, and accepted while preserving the parent Goal's Intent Envelope.
 
 ---
 
 # Architectural Intent
 
-Provide a deterministic protocol for delegating bounded work between Participants.
+Provide a deterministic protocol for delegating bounded work between Participants while preserving governance and traceability.
 
 ---
 
 # Participants
 
-| Participant  | Responsibility                                  |
-| ------------ | ----------------------------------------------- |
-| Orchestrator | Creates, assigns, coordinates and reviews Tasks |
-| Executor     | Executes assigned Tasks                         |
-| Reviewer     | Reviews work when required                      |
+| Participant  | Responsibility                                     |
+| ------------ | -------------------------------------------------- |
+| Orchestrator | Creates, delegates, coordinates, and governs Tasks |
+| Executor     | Executes delegated Tasks                           |
+| Reviewer     | Reviews completed work when required               |
+| Principal    | Approves outcomes when governance requires         |
 
 ---
 
@@ -46,28 +47,30 @@ Provide a deterministic protocol for delegating bounded work between Participant
 
 The Orchestrator owns:
 
-* Task definition
-* Task objective
-* Success Criteria
-* Constraints
-* Assignment
-* Lifecycle
-* Review
+* Task definition;
+* assignment;
+* lifecycle;
+* review coordination.
 
 The Executor owns:
 
-* Execution strategy
-* Execution notes
-* Produced Artifacts
-* Progress reporting
+* execution strategy;
+* execution progress;
+* produced Artifacts.
 
-The Executor SHALL NOT modify the Task Objective or Success Criteria.
+The Executor SHALL preserve the inherited Intent Envelope.
+
+The Executor SHALL NOT redefine:
+
+* Objective;
+* Success Criteria;
+* Constraints.
 
 ---
 
-# Task State Machine
+# Task Lifecycle
 
-Tasks SHALL progress through the following lifecycle.
+A Task SHALL occupy exactly one canonical State:
 
 ```text
 Draft
@@ -81,10 +84,15 @@ Assigned
   ▼
 Executing
   │
+  ├────────────► Waiting
+  │                   │
+  │                   ▼
+  │               Executing
+  │
   ├────────────► Blocked
-  │                  │
-  │                  ▼
-  │              Executing
+  │                   │
+  │                   ▼
+  │               Executing
   │
   ▼
 Ready for Review
@@ -94,11 +102,12 @@ Ready for Review
   ▼
 Accepted
   │
-  ▼
-Closed
+  ├────────────► Archived
+  │
+  └────────────► Cancelled
 ```
 
-The canonical lifecycle SHALL be preserved.
+Operational scheduling mechanisms such as queues, leases, claims, reservations, or heartbeats are implementation-specific and SHALL NOT introduce additional canonical Task States.
 
 ---
 
@@ -108,23 +117,19 @@ The canonical lifecycle SHALL be preserved.
 
 The Task is incomplete.
 
-It SHALL NOT be executed.
+Execution SHALL NOT begin.
 
 ---
 
 ## Ready
 
-The Task is executable.
-
-The Orchestrator MAY assign it.
+The Task is complete enough for assignment.
 
 ---
 
 ## Assigned
 
-The Task has been delegated to an Executor.
-
-The Executor SHALL validate that sufficient information exists before beginning execution.
+Responsibility has been delegated to an Executor.
 
 ---
 
@@ -132,68 +137,65 @@ The Executor SHALL validate that sufficient information exists before beginning 
 
 The Executor is actively performing work.
 
-The Executor SHOULD publish progress Events.
+---
+
+## Waiting
+
+Execution is temporarily paused awaiting an external dependency or condition.
 
 ---
 
 ## Blocked
 
-Execution cannot continue.
-
-The Executor SHALL provide:
-
-* blocker description
-* reason
-* recommended next action
+Execution cannot continue without intervention.
 
 ---
 
 ## Ready for Review
 
-Execution has concluded.
+Execution has completed.
 
-The Executor believes the Task satisfies its Success Criteria.
+Artifacts have been produced.
 
-The Executor SHALL provide:
+The Executor asserts that execution is complete.
 
-* Artifacts
-* execution summary
-* status report
-
-The Task SHALL NOT be considered complete.
+The Task has **not** yet been accepted.
 
 ---
 
 ## Accepted
 
-The Orchestrator has reviewed the work.
+The Task has satisfied its Success Criteria.
 
-Evidence has been assembled.
+Supporting Evidence exists.
 
-A governing Decision has been recorded.
+A Final Decision authorizing acceptance exists.
 
 ---
 
-## Closed
+## Cancelled
 
-The Task has reached a terminal state.
+Execution has been intentionally terminated.
 
-Historical information SHALL remain discoverable.
+---
+
+## Archived
+
+The Task is retained for historical reference.
 
 ---
 
 # Preconditions
 
-Before assigning a Task, the Orchestrator SHALL ensure the Task includes:
+Before assigning a Task, the Orchestrator SHALL ensure the Task contains:
 
-* Parent Goal
-* Objective
-* Success Criteria
-* Constraints
-* Expected Deliverables
-* Reporting Requirements
+* Parent Goal;
+* Objective;
+* Success Criteria;
+* Constraints;
+* inherited Intent Envelope context.
 
-Tasks missing these elements SHOULD remain in Draft.
+Tasks lacking these properties SHALL remain in Draft.
 
 ---
 
@@ -201,7 +203,7 @@ Tasks missing these elements SHOULD remain in Draft.
 
 ## Step 1 — Task Creation
 
-The Orchestrator creates a Task.
+The Orchestrator creates the Task.
 
 Initial State:
 
@@ -211,21 +213,26 @@ Draft
 
 ---
 
-## Step 2 — Task Validation
+## Step 2 — Validation
 
-The Orchestrator verifies that the Task is executable.
+The Orchestrator validates that the Task:
 
-State:
+* is internally complete;
+* preserves the parent Goal's Intent Envelope;
+* is independently executable;
+* has observable Success Criteria.
+
+If validation succeeds:
 
 ```text
-Ready
+Draft → Ready
 ```
 
 ---
 
 ## Step 3 — Assignment
 
-The Task is delegated to an Executor.
+The Orchestrator delegates the Task to an Executor.
 
 State:
 
@@ -233,35 +240,32 @@ State:
 Assigned
 ```
 
-The assignment SHALL preserve the Goal's Intent Envelope.
+The delegated Task SHALL include sufficient inherited Intent Envelope context for correct execution.
 
 ---
 
-## Step 4 — Acceptance
+## Step 4 — Acceptance by Executor
 
-The Executor SHALL verify that:
+Before beginning execution, the Executor SHALL verify that:
 
-* Success Criteria are clear;
-* Constraints are understood;
-* Required context exists.
+* the Task is understandable;
+* required context exists;
+* Success Criteria are achievable;
+* Constraints are understood.
 
-If clarification is required, the Executor SHALL report:
+If clarification is required, execution SHALL NOT begin.
 
-```text
-needs_clarification
-```
-
-The Executor SHALL NOT silently expand the Task scope.
+The Executor SHALL report the condition through implementation-defined mechanisms.
 
 ---
 
 ## Step 5 — Execution
 
-The Executor MAY use internal autonomous execution mechanisms (such as `/goal`) to accomplish the assigned Task.
+The Executor performs the delegated work.
 
-Such mechanisms SHALL remain scoped to the delegated Task.
+The Executor MAY employ autonomous planning or internal execution mechanisms, provided they remain entirely within the Task's authorized scope.
 
-The Executor SHALL NOT reinterpret the parent Goal.
+The Executor SHALL NOT expand scope or reinterpret the inherited Intent Envelope.
 
 State:
 
@@ -271,81 +275,85 @@ Executing
 
 ---
 
-## Step 6 — Reporting
+## Step 6 — Completion
 
-Upon completion of execution, the Executor SHALL report one of:
+When execution is complete, the Executor SHALL:
 
-* ready_for_review
-* blocked
-* waiting
-* failed
-* needs_clarification
+* publish required Artifacts;
+* publish completion Events;
+* provide sufficient information for review.
 
-Supporting Artifacts SHALL accompany a `ready_for_review` report.
+The Task transitions to:
 
----
-
-## Step 7 — Review
-
-The Orchestrator SHALL:
-
-* inspect Artifacts;
-* assemble Evidence;
-* determine whether Success Criteria have been met.
+```text
+Ready for Review
+```
 
 Executor reports SHALL NOT constitute Evidence.
 
 ---
 
-## Step 8 — Acceptance
+## Step 7 — Review
 
-If the Task satisfies its Success Criteria:
+The Orchestrator or Reviewer SHALL:
 
-* Evidence SHALL be assembled.
-* A governing Decision SHALL be recorded.
+* inspect Artifacts;
+* assemble Evidence;
+* evaluate Success Criteria;
+* determine whether additional work is required.
 
-State:
-
-```text
-Accepted
-```
-
-Otherwise the Task MAY return to:
+If deficiencies exist:
 
 ```text
-Executing
+Ready for Review → Executing
 ```
 
-with additional work requested.
+Otherwise proceed.
 
 ---
 
-## Step 9 — Closure
+## Step 8 — Acceptance
 
-Accepted Tasks MAY be closed.
+The Task SHALL transition to Accepted only when:
 
-Closed Tasks SHALL remain discoverable.
+* Success Criteria have been satisfied;
+* supporting Evidence exists;
+* a Final Decision conforming to MTH-034 exists;
+* required Approvals have been obtained.
+
+---
+
+## Step 9 — Archival
+
+Accepted Tasks MAY transition to Archived.
+
+Archival SHALL preserve:
+
+* Artifacts;
+* Events;
+* Evidence;
+* Decisions;
+* complete traceability.
 
 ---
 
 # Failure Handling
 
-The Task SHALL enter Blocked when:
+A Task SHALL transition to Waiting or Blocked when execution cannot continue.
 
-* dependencies are unavailable;
-* execution cannot continue safely;
-* clarification is required;
-* required infrastructure is unavailable.
+Recovery SHALL conform to MTH-037.
 
-Blocked Tasks SHALL retain all historical information.
+Task history SHALL remain preserved.
 
 ---
 
 # Scope Preservation
 
-The Executor SHALL treat the delegated Task as the maximum authorized scope of autonomous execution.
+The delegated Task defines the maximum authorized execution scope.
 
 Expanding scope SHALL require Orchestrator authorization.
+
+The inherited Intent Envelope SHALL remain preserved throughout execution.
 
 ---
 
@@ -353,10 +361,11 @@ Expanding scope SHALL require Orchestrator authorization.
 
 A Task SHALL NOT transition to Accepted unless:
 
-* Success Criteria have been evaluated;
+* every Success Criterion has been evaluated;
 * required Artifacts exist;
 * supporting Evidence exists;
-* a governing Decision exists.
+* a Final Decision exists;
+* required Approvals exist.
 
 ---
 
@@ -365,11 +374,11 @@ A Task SHALL NOT transition to Accepted unless:
 A conforming implementation SHALL:
 
 * delegate bounded Tasks;
-* preserve Goal intent;
-* respect Ownership Domains;
+* preserve the inherited Intent Envelope;
+* implement the canonical Task lifecycle;
 * require Evidence before acceptance;
-* preserve traceability;
-* maintain Task history.
+* require a Final Decision before acceptance;
+* preserve historical traceability.
 
 ---
 
@@ -377,7 +386,7 @@ A conforming implementation SHALL:
 
 **MTH-031-REQ-001**
 
-Tasks SHALL be the unit of delegation.
+Tasks SHALL be the canonical unit of delegation.
 
 **MTH-031-REQ-002**
 
@@ -385,36 +394,48 @@ Executors SHALL execute only delegated Tasks.
 
 **MTH-031-REQ-003**
 
-Executors SHALL preserve the Goal Intent Envelope.
+Executors SHALL preserve the inherited Intent Envelope.
 
 **MTH-031-REQ-004**
 
-Executors SHALL NOT expand Task scope without authorization.
+Executors SHALL NOT expand Task scope without Orchestrator authorization.
 
 **MTH-031-REQ-005**
 
-Executor reports SHALL NOT constitute Evidence.
+Executor completion reports SHALL NOT constitute Evidence.
 
 **MTH-031-REQ-006**
 
-Task acceptance SHALL require a governing Decision.
+Task acceptance SHALL require supporting Evidence.
+
+**MTH-031-REQ-007**
+
+Task acceptance SHALL require a Final Decision conforming to MTH-034.
+
+**MTH-031-REQ-008**
+
+Operational scheduling mechanisms SHALL NOT introduce additional canonical Task States.
 
 ---
 
 # Design Rationale
 
-The Task Protocol separates delegation from execution.
+The Task Protocol separates delegation, execution, review, and governance into distinct responsibilities.
 
-The Orchestrator defines *what* bounded work is required.
+The Orchestrator defines **what** bounded work is required.
 
-The Executor determines *how* to accomplish that work within the defined constraints.
+The Executor determines **how** that work is accomplished within the delegated scope.
 
-This separation enables autonomous execution while preserving accountability, governance, and alignment with the parent Goal.
+The Reviewer evaluates the resulting work.
+
+Governance is completed through Evidence, Approval, and a Final Decision.
+
+This separation enables autonomous execution while preserving accountability, reproducibility, and alignment with the parent Goal's Intent Envelope.
 
 ---
 
 # Revision History
 
-| Version | Date          | Notes             |
-| ------- | ------------- | ----------------- |
-| 0.1.0   | Initial draft | First publication |
+| Version | Date           | Notes                                                                    |
+| ------- | -------------- | ------------------------------------------------------------------------ |
+| 0.2.0   | First revision | Aligned with Intent Envelope, canonical Task model, and governance chain |

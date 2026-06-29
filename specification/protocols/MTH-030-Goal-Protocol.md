@@ -4,13 +4,13 @@
 
 **Title:** Goal Protocol
 
-**Version:** 0.1.0
+**Version:** 0.2.0
 
 **Status:** Draft
 
 **Category:** Protocols
 
-**Depends Upon:** MTH-010 Goal, MTH-020 Principal, MTH-021 Orchestrator
+**Depends Upon:** MTH-010 Goal, MTH-011 Intent Envelope, MTH-016 Decision, MTH-020 Principal, MTH-021 Orchestrator
 
 ---
 
@@ -20,7 +20,7 @@ This specification defines the Goal Protocol.
 
 The Goal Protocol governs the lifecycle of a Goal from its creation by the Principal through planning, execution, review, completion, and archival.
 
-The Goal Protocol defines state transitions, participant responsibilities, and the conditions under which a Goal may progress.
+The protocol defines participant responsibilities, state transitions, and the governance required before a Goal may progress.
 
 ---
 
@@ -32,42 +32,35 @@ Provide a deterministic lifecycle for Goal execution while preserving the Princi
 
 # Participants
 
-The following Participants participate in the Goal Protocol:
-
-| Participant  | Responsibility               |
-| ------------ | ---------------------------- |
-| Principal    | Defines and owns Goal intent |
-| Orchestrator | Manages Goal lifecycle       |
-| Executor     | Executes delegated Tasks     |
-| Reviewer     | Reviews work when required   |
+| Participant  | Responsibility                                 |
+| ------------ | ---------------------------------------------- |
+| Principal    | Defines the Goal and owns the Intent Envelope  |
+| Orchestrator | Plans, coordinates, and governs Goal execution |
+| Executor     | Executes delegated Tasks                       |
+| Reviewer     | Reviews work when required                     |
 
 ---
 
 # Ownership
 
-The Principal owns:
-
-* Objective
-* Success Criteria
-* Constraints
-* Acceptance Criteria
+The Principal owns the Intent Envelope.
 
 The Orchestrator owns:
 
-* Planning
-* Task decomposition
-* Goal status
-* Progress tracking
-* Evidence assembly
-* Recommendations
+* planning;
+* Task decomposition;
+* Goal coordination;
+* progress tracking;
+* Evidence assembly;
+* completion recommendations.
 
-The Executor SHALL NOT modify Goal intent.
+Executors SHALL NOT modify the Intent Envelope.
 
 ---
 
-# Goal State Machine
+# Goal Lifecycle
 
-Goals SHALL progress through the following lifecycle:
+A Goal SHALL occupy exactly one canonical State:
 
 ```text
 Draft
@@ -81,15 +74,15 @@ Planning
   ▼
 Active
   │
-  ├──────────────► Blocked
-  │                    │
-  │                    ▼
-  │                Active
+  ├────────────► Blocked
+  │                 │
+  │                 ▼
+  └────────────── Active
   │
   ▼
 Review
   │
-  ├──────────────► Active
+  ├────────────► Active
   │
   ▼
 Complete
@@ -97,8 +90,6 @@ Complete
   ▼
 Archived
 ```
-
-Implementations MAY define additional transient states provided the canonical state progression is preserved.
 
 ---
 
@@ -108,46 +99,39 @@ Implementations MAY define additional transient states provided the canonical st
 
 The Goal is under construction.
 
-Only the Principal SHOULD modify Goal intent.
+Only the Principal SHOULD modify the Intent Envelope.
 
-The Orchestrator SHALL NOT create Tasks.
+No planning occurs.
 
 ---
 
 ## Ready
 
-The Goal is considered complete enough for planning.
+The Principal has explicitly requested planning.
 
-The Orchestrator MAY begin analysis.
+Ready represents the formal handoff from Principal to Orchestrator.
 
 ---
 
 ## Planning
 
-The Orchestrator analyzes the Goal.
+The Orchestrator validates the Goal and constructs the execution plan.
 
-Typical activities include:
+Planning MAY include:
 
-* decomposition
-* dependency analysis
-* Task creation
-* risk identification
-* scheduling
-
-The Goal SHALL NOT enter Active until at least one executable Task exists.
+* decomposition;
+* dependency analysis;
+* Task creation;
+* risk analysis;
+* sequencing.
 
 ---
 
 ## Active
 
-The Goal is being executed.
+One or more executable Tasks exist.
 
-The Orchestrator SHALL:
-
-* monitor progress
-* coordinate Executors
-* assemble Evidence
-* update Goal status
+The Orchestrator coordinates execution.
 
 ---
 
@@ -155,13 +139,7 @@ The Orchestrator SHALL:
 
 Execution cannot continue.
 
-The Orchestrator SHALL record:
-
-* blocker description
-* affected Tasks
-* recommended actions
-
-The Goal MAY return to Active after the blocking condition is resolved.
+The blocking condition SHALL be recorded.
 
 ---
 
@@ -169,25 +147,23 @@ The Goal MAY return to Active after the blocking condition is resolved.
 
 Execution is complete.
 
-The Orchestrator assembles Evidence.
+Evidence is assembled and evaluated.
 
-Completion SHALL NOT be determined solely by Executor reports.
+Completion is assessed against the Intent Envelope.
 
 ---
 
 ## Complete
 
-The Principal or delegated authority accepts that the Goal's Success Criteria have been satisfied.
+The Goal has satisfied its Success Criteria.
 
-A Completion Decision SHALL exist.
+Required governance has occurred.
 
 ---
 
 ## Archived
 
-The Goal is no longer active.
-
-Historical information SHALL remain discoverable.
+The Goal is retained for historical reference.
 
 ---
 
@@ -199,10 +175,9 @@ The Principal creates a Goal.
 
 The Goal SHALL contain:
 
-* Objective
-* Success Criteria
-* Constraints
-* Acceptance Criteria
+* Intent Envelope;
+* Owner;
+* Priority.
 
 Initial State:
 
@@ -214,77 +189,104 @@ Draft
 
 ## Step 2 — Goal Authorization
 
-The Principal marks the Goal:
+The Principal explicitly changes the Goal State to:
 
 ```text
 Ready
 ```
 
-This authorizes the Orchestrator to begin planning.
+This SHALL be the only mechanism that authorizes planning.
 
-The `Ready` state is the explicit Principal-to-Orchestrator handoff.
-
-A Goal SHALL NOT be considered ready for planning merely because it exists.
-
-When a Principal sets a Goal to `Ready`, the Orchestrator SHALL validate that the Goal contains a complete Intent Envelope before transitioning the Goal to `Planning`.
-
-If validation fails, the Orchestrator SHALL record the deficiency and return the Goal to `Draft` or mark it `Blocked`, according to local policy.
+A Goal SHALL NOT be planned merely because it exists.
 
 ---
 
-## Step 3 — Planning
+## Step 3 — Goal Intake
 
-The Orchestrator:
+Upon observing a Goal in the Ready state, the Orchestrator SHALL validate that the Goal contains a complete Intent Envelope.
 
-* validates Goal completeness
-* analyzes dependencies
-* creates Tasks
-* records planning decisions
+The validation SHALL confirm:
 
-State:
+* Objective;
+* Success Criteria;
+* Constraints;
+* Acceptance Criteria;
+* Principal;
+* Priority.
+
+If validation succeeds:
 
 ```text
-Planning
+Ready → Planning
 ```
+
+If validation fails:
+
+The Orchestrator SHALL:
+
+* generate an Event;
+* record the validation deficiencies;
+* return the Goal to Draft or transition it to Blocked according to implementation policy.
 
 ---
 
-## Step 4 — Execution
+## Step 4 — Planning
 
-The Orchestrator publishes executable Tasks.
+During Planning the Orchestrator SHALL:
 
-Execution begins after at least one Task has been accepted by an Executor.
+* analyze dependencies;
+* decompose the Goal into Tasks;
+* assign ownership;
+* identify risks;
+* preserve the Intent Envelope.
 
-State:
+The Goal SHALL NOT enter Active until at least one executable Task exists.
+
+---
+
+## Step 5 — Execution
+
+The Goal transitions to:
 
 ```text
 Active
 ```
 
----
+The Orchestrator SHALL:
 
-## Step 5 — Monitoring
-
-During execution the Orchestrator SHALL:
-
-* monitor Task state
-* collect Events
-* collect Artifacts
-* identify risks
-* identify blockers
-* update Goal progress
+* coordinate Executors;
+* monitor Task progress;
+* collect Events;
+* collect Artifacts;
+* assemble Evidence;
+* monitor risks.
 
 ---
 
-## Step 6 — Review
+## Step 6 — Blocked Goals
 
-After all required Tasks are complete, the Orchestrator SHALL:
+A Goal SHALL transition to Blocked when progress cannot continue because of:
 
-* assemble Evidence
-* evaluate Success Criteria
-* prepare completion recommendation
+* unresolved dependencies;
+* missing information;
+* infrastructure failures;
+* unavailable Participants;
+* required Principal clarification.
 
-State:
+Blocked Goals SHALL preserve all existing state.
+
+---
+
+## Step 7 — Review
+
+When all required Tasks reach Accepted, the Orchestrator SHALL:
+
+* assemble Evidence;
+* evaluate Success Criteria;
+* evaluate Acceptance Criteria;
+* prepare a completion recommendation.
+
+The Goal transitions to:
 
 ```text
 Review
@@ -292,54 +294,44 @@ Review
 
 ---
 
-## Step 7 — Completion
+## Step 8 — Completion
 
-Completion SHALL require:
+A Goal SHALL transition to Complete only when:
 
-* Goal Success Criteria satisfied
-* supporting Evidence
-* governing Decision
-
-State:
-
-```text
-Complete
-```
+* the Intent Envelope has been satisfied;
+* supporting Evidence exists;
+* required Approvals have been obtained;
+* a Final Decision conforming to MTH-034 exists.
 
 ---
 
-## Step 8 — Archival
+## Step 9 — Archival
 
-Completed Goals MAY be archived.
+Completed Goals MAY transition to:
+
+```text
+Archived
+```
 
 Archival SHALL preserve:
 
-* history
-* Decisions
-* Evidence
-* Artifacts
-* traceability
+* Intent Envelope;
+* Tasks;
+* Events;
+* Artifacts;
+* Evidence;
+* Decisions;
+* traceability.
 
 ---
 
 # Failure Handling
 
-The Goal SHALL enter Blocked when:
+Goals SHALL transition to Blocked when required progress cannot continue.
 
-* critical Tasks cannot continue;
-* dependencies fail;
-* Principal clarification is required;
-* required infrastructure becomes unavailable.
+The Goal SHALL NOT transition to Complete while Blocked.
 
-The Goal SHALL NOT be marked Complete while Blocked.
-
----
-
-# Ownership Domain Rules
-
-The Orchestrator SHALL respect Ownership Domains.
-
-The Principal's Intent Envelope SHALL NOT be modified during execution except through explicit authorization.
+Recovery SHALL conform to MTH-037.
 
 ---
 
@@ -347,10 +339,11 @@ The Principal's Intent Envelope SHALL NOT be modified during execution except th
 
 A Goal SHALL NOT transition to Complete unless:
 
-* all required Success Criteria have been evaluated;
+* every Success Criterion has been evaluated;
+* Acceptance Criteria have been satisfied;
 * supporting Evidence exists;
-* a governing Decision exists;
-* required approvals have been obtained.
+* a Final Decision exists;
+* required Approvals exist.
 
 ---
 
@@ -358,12 +351,12 @@ A Goal SHALL NOT transition to Complete unless:
 
 A conforming implementation SHALL:
 
-* preserve Goal intent;
+* preserve the Intent Envelope;
 * implement the canonical lifecycle;
-* respect Ownership Domains;
+* perform Goal intake validation;
 * require Evidence before completion;
-* preserve traceability;
-* maintain historical state.
+* require a Final Decision before completion;
+* preserve historical traceability.
 
 ---
 
@@ -371,44 +364,48 @@ A conforming implementation SHALL:
 
 **MTH-030-REQ-001**
 
-Goals SHALL progress through the canonical lifecycle.
+Goals SHALL follow the canonical lifecycle defined by MTH-010.
 
 **MTH-030-REQ-002**
 
-Only the Principal MAY modify Goal intent unless an applicable Protocol authorizes otherwise.
+The Ready state SHALL be the explicit Principal-to-Orchestrator handoff.
 
 **MTH-030-REQ-003**
 
-The Orchestrator SHALL manage Goal lifecycle.
+The Orchestrator SHALL validate the Intent Envelope before entering Planning.
 
 **MTH-030-REQ-004**
 
-Completion SHALL require supporting Evidence.
+The Orchestrator SHALL NOT modify the Intent Envelope.
 
 **MTH-030-REQ-005**
 
-Completion SHALL require a governing Decision.
+Goal completion SHALL require supporting Evidence.
 
 **MTH-030-REQ-006**
 
-Archived Goals SHALL remain discoverable.
+Goal completion SHALL require a Final Decision conforming to MTH-034.
+
+**MTH-030-REQ-007**
+
+Archived Goals SHALL remain fully traceable.
 
 ---
 
 # Design Rationale
 
-The Goal Protocol separates ownership of intent from ownership of execution.
+The Goal Protocol separates intent, planning, execution, review, and governance into distinct responsibilities.
 
-The Principal defines *what* should be achieved.
+The Principal defines **what** shall be accomplished through the Intent Envelope.
 
-The Orchestrator determines *how* the Goal progresses through its lifecycle.
+The Orchestrator determines **how** execution proceeds while preserving that Intent Envelope.
 
-This separation permits autonomous execution while preserving accountability, governance, and institutional knowledge.
+This separation allows autonomous Participants to collaborate while maintaining accountability, reproducibility, and institutional knowledge.
 
 ---
 
 # Revision History
 
-| Version | Date          | Notes             |
-| ------- | ------------- | ----------------- |
-| 0.1.0   | Initial draft | First publication |
+| Version | Date           | Notes                                                                            |
+| ------- | -------------- | -------------------------------------------------------------------------------- |
+| 0.2.0   | First revision | Added explicit Goal intake, Intent Envelope validation, and governance alignment |

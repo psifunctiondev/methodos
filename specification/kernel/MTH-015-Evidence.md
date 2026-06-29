@@ -1,16 +1,16 @@
 # Méthodos Specification
 
-**Identifier:** MTH-014
+**Identifier:** MTH-015
 
-**Title:** Evidence Object
+**Title:** Evidence
 
-**Version:** 0.1.0
+**Version:** 0.2.0
 
 **Status:** Draft
 
 **Category:** Kernel
 
-**Depends Upon:** MTH-000 through MTH-013
+**Depends Upon:** MTH-000 through MTH-014
 
 ---
 
@@ -18,23 +18,23 @@
 
 This specification defines the Evidence Object.
 
-Evidence is a structured, durable argument supporting a claim regarding one or more Objects within a Méthodos implementation.
+Evidence is a structured, durable argument supporting one or more explicit Claims regarding canonical Objects within a Méthodos implementation.
 
-Evidence is constructed from one or more Artifacts and provides the basis for validation, acceptance, and decision-making.
+Evidence is constructed from one or more Artifacts and provides the basis for review, acceptance, governance, and decision-making.
 
 ---
 
 # Architectural Intent
 
-Provide verifiable justification for claims.
+Represent verifiable justification for Claims while separating observation from governance.
 
 ---
 
 # Purpose
 
-Evidence enables Participants to determine whether assertions regarding Goals, Tasks, Artifacts, or Decisions are supported by observable facts.
+Evidence enables Participants to determine whether assertions regarding Goals, Tasks, Artifacts, or other canonical Objects are adequately supported by observable facts.
 
-Evidence transforms execution outputs into trustworthy conclusions.
+Evidence transforms execution outputs into reviewable, traceable justification.
 
 ---
 
@@ -42,9 +42,15 @@ Evidence transforms execution outputs into trustworthy conclusions.
 
 Evidence is a structured argument supported by one or more Artifacts.
 
-Evidence is not itself an Artifact.
+Evidence is **not** an Artifact.
 
-Evidence references Artifacts while expressing one or more claims that those Artifacts support.
+Evidence references Artifacts while expressing one or more Claims that those Artifacts support.
+
+Evidence SHALL distinguish:
+
+* observations;
+* interpretations;
+* conclusions.
 
 ---
 
@@ -53,33 +59,43 @@ Evidence references Artifacts while expressing one or more claims that those Art
 Every Evidence Object SHALL contain:
 
 * Identifier
-* Claim
-* Supporting Artifact References
-* Related Object Identifier
+* Title
+* Current State
 * Creator
 * Creation Timestamp
-* Confidence
+* Modified Timestamp
+* One or more Claims
+* Supporting Artifact References
+* Related Object References
 * Validation Method
+* Confidence
 * Summary
+
+An Evidence Object MAY additionally contain:
+
+* Confidence Basis
+* Verification Method
+* Reviewer
+* Verified By
+* Tags
+* Implementation-specific metadata
 
 ---
 
 # Claims
 
-Every Evidence Object SHALL make one or more explicit claims.
+Every Evidence Object SHALL contain one or more explicit Claims.
 
 Examples include:
 
 * Success Criteria satisfied.
-* Test suite passed.
-* Performance target achieved.
+* Performance requirement achieved.
 * Constraint preserved.
+* Test suite passed.
 * Failure reproduced.
 * Requirement violated.
 
-Claims SHALL be observable.
-
-Claims SHOULD be independently reviewable.
+Claims SHALL be specific and independently reviewable.
 
 ---
 
@@ -100,51 +116,89 @@ Evidence MAY support:
 * Goals
 * Tasks
 * Decisions
-* Approvals
 * Reviews
+* Approvals
 
-Evidence SHALL reference at least one related Object.
+Evidence SHALL reference at least one related canonical Object.
 
 ---
 
 # Ownership
 
-Evidence has a Creator.
+Evidence has exactly one Creator.
 
-Evidence becomes part of the institutional Knowledge Repository.
+Accepted Evidence becomes part of the institutional Knowledge Repository.
 
-Subsequent Participants MAY reference existing Evidence but SHALL NOT modify it.
+Accepted Evidence SHALL NOT be modified.
 
-If additional support becomes available, a new Evidence Object SHALL be created.
+Additional observations SHALL be represented by a new Evidence Object or by superseding Evidence.
 
 ---
 
 # Lifecycle
 
-Evidence SHALL occupy one of the following States:
+An Evidence Object SHALL occupy exactly one of the following canonical States:
 
 * Draft
-* Submitted
+* Assembled
+* Reviewed
 * Accepted
 * Superseded
 * Archived
 
-Evidence SHALL remain durable.
+---
+
+# State Definitions
+
+## Draft
+
+Evidence is incomplete.
+
+---
+
+## Assembled
+
+Supporting Artifacts have been collected and one or more Claims have been documented.
+
+---
+
+## Reviewed
+
+Evidence has undergone independent review.
+
+---
+
+## Accepted
+
+Evidence has been accepted for governance purposes.
+
+---
+
+## Superseded
+
+A newer Evidence Object replaces this Evidence while preserving historical traceability.
+
+---
+
+## Archived
+
+Evidence is retained for historical reference.
 
 ---
 
 # Validation
 
-Evidence SHALL describe how the supporting claim was evaluated.
+Every Evidence Object SHALL identify the Validation Method used to evaluate its Claims.
 
 Validation methods MAY include:
 
-* automated testing
-* human review
-* measurement
-* comparison
-* inspection
-* external verification
+* automated testing;
+* measurement;
+* comparison;
+* inspection;
+* independent review;
+* independent execution;
+* external verification.
 
 Implementations MAY define additional validation methods.
 
@@ -152,16 +206,54 @@ Implementations MAY define additional validation methods.
 
 # Confidence
 
-Evidence SHOULD include an assessment of confidence.
+Every Evidence Object SHALL include a Confidence assessment.
 
-Typical values MAY include:
+Confidence represents the degree to which the stated Claims are substantiated by the available Evidence.
 
-* Low
-* Moderate
-* High
-* Verified
+Confidence SHALL NOT represent subjective belief or statistical probability.
 
-The confidence assessment SHALL NOT replace supporting Artifacts.
+Canonical confidence levels are:
+
+### Low
+
+Preliminary supporting information exists.
+
+### Moderate
+
+Supporting Artifacts exist and internally substantiate the Claims.
+
+### High
+
+The Claims have undergone independent review.
+
+### Verified
+
+The Claims have been independently reproduced, measured, executed, or otherwise validated through an approved verification method.
+
+Only independent review or independent verification MAY increase Confidence beyond Moderate.
+
+---
+
+# Traceability
+
+Every Evidence Object SHALL be traceable to:
+
+* supporting Artifacts;
+* originating Tasks;
+* related Goals;
+* resulting Decisions.
+
+Traceability SHALL remain preserved throughout the Evidence lifecycle.
+
+---
+
+# Immutability
+
+Accepted Evidence SHALL be immutable.
+
+Corrections or additional support SHALL be represented through new or superseding Evidence Objects.
+
+Historical Evidence SHALL remain discoverable.
 
 ---
 
@@ -169,52 +261,57 @@ The confidence assessment SHALL NOT replace supporting Artifacts.
 
 The following SHALL always remain true:
 
-* Every Evidence Object has one Identifier.
-* Every Evidence Object makes at least one Claim.
+* Every Evidence Object has exactly one Identifier.
+* Every Evidence Object contains one or more Claims.
 * Every Evidence Object references one or more Artifacts.
-* Every Evidence Object references at least one related Object.
-* Evidence SHALL remain independently reviewable.
+* Every Evidence Object references at least one related canonical Object.
+* Accepted Evidence remains immutable.
+* Evidence remains independently reviewable.
 
 ---
 
 # Conformance
 
-An implementation conforms to this specification if every Evidence Object:
+A conforming implementation SHALL ensure that every Evidence Object:
 
-* contains explicit Claims,
-* references supporting Artifacts,
-* identifies a validation method,
-* and remains independently reviewable.
+* contains explicit Claims;
+* references supporting Artifacts;
+* identifies a Validation Method;
+* records a Confidence assessment;
+* preserves traceability;
+* remains independently reviewable.
 
 ---
 
 # Normative Requirements
 
-**MTH-014-REQ-001**
+**MTH-015-REQ-001**
 
-Every Evidence Object SHALL contain at least one explicit Claim.
+Every Evidence Object SHALL contain one or more explicit Claims.
 
-**MTH-014-REQ-002**
+**MTH-015-REQ-002**
 
 Evidence SHALL reference one or more supporting Artifacts.
 
-**MTH-014-REQ-003**
+**MTH-015-REQ-003**
 
-Evidence SHALL identify a validation method.
+Evidence SHALL identify a Validation Method.
 
-**MTH-014-REQ-004**
+**MTH-015-REQ-004**
 
-Evidence SHALL reference at least one related Object.
+Evidence SHALL reference at least one related canonical Object.
 
-**MTH-014-REQ-005**
+**MTH-015-REQ-005**
 
-Evidence SHALL remain durable.
+Every Evidence Object SHALL record a Confidence assessment.
 
-**MTH-014-REQ-006**
+**MTH-015-REQ-006**
 
-Evidence SHALL NOT be modified after acceptance.
+Accepted Evidence SHALL be immutable.
 
-Additional supporting information SHALL be represented by a new Evidence Object.
+**MTH-015-REQ-007**
+
+Only independent review or independent verification MAY increase Confidence beyond Moderate.
 
 ---
 
@@ -224,45 +321,42 @@ The following behaviors are non-conforming or discouraged:
 
 * Treating Artifacts as Evidence.
 * Claims without supporting Artifacts.
-* Confidence without validation.
+* Confidence without documented validation.
 * Assertions that cannot be independently reviewed.
-* Editing accepted Evidence.
+* Editing Accepted Evidence.
+* Using Confidence as a substitute for supporting Artifacts.
 
 ---
 
 # Design Rationale
 
-Méthodos distinguishes between:
+Méthodos deliberately separates:
 
-Events
-→ what happened.
+* **Events** — what happened.
+* **Artifacts** — what was produced.
+* **Evidence** — what the Artifacts substantiate.
+* **Decisions** — what is authorized based upon that Evidence.
 
-Artifacts
-→ what was produced.
+This separation enables independent validation, transparent governance, reproducible reasoning, and long-term institutional learning.
 
-Evidence
-→ what can be concluded.
-
-This separation enables independent validation, review, auditing, and long-term institutional learning.
-
-Participants are free to produce different Artifacts while still constructing equivalent Evidence.
+Multiple Participants may construct independent Evidence from the same Artifacts while arriving at different conclusions. Such disagreement is resolved through review and governance rather than by modifying the underlying Artifacts.
 
 ---
 
 # Future Directions
 
-Future specifications will define:
+Future specifications may define:
 
-* Evidence Protocol
-* Evidence Templates
-* Review Workflow
-* Evidence Correlation
-* Acceptance Process
+* Evidence composition;
+* Evidence packages;
+* Automated verification;
+* Cross-Goal Evidence reuse;
+* Confidence calibration profiles.
 
 ---
 
 # Revision History
 
-| Version | Date          | Notes             |
-| ------- | ------------- | ----------------- |
-| 0.1.0   | Initial draft | First publication |
+| Version | Date           | Notes                                                                 |
+| ------- | -------------- | --------------------------------------------------------------------- |
+| 0.2.0   | First revision | Aligned with MTH-033 Evidence Protocol and canonical confidence model |

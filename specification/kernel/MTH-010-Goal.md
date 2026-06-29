@@ -72,7 +72,6 @@ The standard Goal States are:
 * Ready
 * Planning
 * Active
-* Waiting
 * Blocked
 * Review
 * Complete

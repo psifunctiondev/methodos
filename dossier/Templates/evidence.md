@@ -1,30 +1,24 @@
 ---
-
 id: E-YYYYMMDD-001
 type: Evidence
-
 title:
 state: Draft
-
 creator:
-
 created:
 modified:
-
-confidence: Moderate
+confidence: Low
 validation_method:
-
+verification_method:
+verified_by:
+reviewer:
 related_objects: []
-
 supporting_artifacts: []
-
-## tags: []
+tags: []
+---
 
 # Evidence
 
 ## Summary
-
-One-paragraph summary of the evidence package.
 
 ---
 
@@ -32,21 +26,9 @@ One-paragraph summary of the evidence package.
 
 ## Assertion
 
-What specific claim does this Evidence support?
-
-Examples:
-
-* Task Success Criteria satisfied.
-* Performance target achieved.
-* Constraint preserved.
-* Failure reproduced.
-* Requirement fulfilled.
-
 ---
 
 ## Scope
-
-What Objects does this Evidence apply to?
 
 Goals:
 
@@ -59,7 +41,7 @@ Decisions:
 # Supporting Artifacts
 
 | Artifact | Purpose |
-| -------- | ------- |
+|----------|---------|
 
 ---
 
@@ -69,12 +51,12 @@ Decisions:
 
 Examples:
 
-* Automated Testing
-* Human Review
-* Measurement
-* Inspection
-* Comparison
-* External Verification
+- Automated Testing
+- Measurement
+- Inspection
+- Comparison
+- Human Review
+- External Verification
 
 Method:
 
@@ -82,22 +64,48 @@ Method:
 
 ## Validation Results
 
-Describe how the claim was evaluated.
-
 ---
 
-## Confidence
+# Confidence
+
+Confidence represents degree of substantiation, not probability or subjective belief.
 
 Choose one:
 
-* Low
-* Moderate
-* High
-* Verified
+- Low
+- Moderate
+- High
+- Verified
 
 Confidence:
 
-Justification:
+Basis:
+
+---
+
+# Review
+
+## Independent Review
+
+Reviewer:
+
+Review Date:
+
+Outcome:
+
+Notes:
+
+---
+
+## Verification
+
+Required only for `Verified`.
+
+Verification Method:
+
+Verified By:
+
+Verification Date:
 
 ---
 
@@ -105,42 +113,38 @@ Justification:
 
 ## Observations
 
-Observable facts discovered during validation.
+---
+
+## Interpretations
+
+---
+
+## Conclusions
 
 ---
 
 ## Exceptions
 
-Anything that weakens or limits the claim.
-
-If none:
-
-> None identified.
+None identified.
 
 ---
 
 ## Residual Risks
 
-Any remaining uncertainty.
+None identified.
 
 ---
 
-# Conclusion
-
-Does the supporting evidence justify the claim?
-
----
-
-## Recommendation
+# Recommendation
 
 Choose one:
 
-* Accept
-* Reject
-* Additional Evidence Required
-* Human Review Required
-* Retry
-* Escalate
+- Accept
+- Reject
+- Additional Evidence Required
+- Human Review Required
+- Retry
+- Escalate
 
 Recommendation:
 
@@ -149,8 +153,6 @@ Reason:
 ---
 
 # Traceability
-
-## Related Objects
 
 Goals:
 
@@ -162,35 +164,13 @@ Events:
 
 Decisions:
 
----
-
-# Review
-
-Reviewer:
-
-Review Date:
-
-Review Notes:
+Related Evidence:
 
 ---
 
 # History
 
-## Revision Log
+## State Transitions
 
-| Date | Change |
-| ---- | ------ |
-
----
-
-# Links
-
-Related Evidence:
-
-Supporting Artifacts:
-
-Related Decisions:
-
-Related Goals:
-
-Related Tasks:
+| Timestamp | From | To | Authorized By |
+|-----------|------|----|---------------|

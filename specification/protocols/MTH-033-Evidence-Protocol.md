@@ -4,13 +4,13 @@
 
 **Title:** Evidence Protocol
 
-**Version:** 0.1.0
+**Version:** 0.2.0
 
 **Status:** Draft
 
 **Category:** Protocols
 
-**Depends Upon:** MTH-014 Evidence, MTH-032 Artifact Protocol, MTH-035 Event Protocol
+**Depends Upon:** MTH-014 Artifact, MTH-015 Evidence, MTH-016 Decision, MTH-032 Artifact Protocol
 
 ---
 
@@ -18,176 +18,250 @@
 
 This specification defines the Evidence Protocol.
 
-The Evidence Protocol governs the construction, validation, review, and preservation of Evidence supporting claims within a Méthodos deployment.
+The Evidence Protocol governs the construction, validation, review, acceptance, supersession, and archival of Evidence within a Méthodos implementation.
 
-Evidence connects observable Artifacts to explicit Claims through reproducible reasoning.
+Evidence transforms observable Artifacts into structured, reviewable arguments supporting explicit Claims.
 
-Evidence SHALL NOT itself authorize state changes.
+Evidence SHALL inform governance but SHALL NOT itself authorize state transitions.
 
 ---
 
 # Architectural Intent
 
-Provide a transparent, reviewable justification for conclusions while separating observation from governance.
+Provide a deterministic process for constructing and evaluating Evidence while separating execution, review, and governance.
 
 ---
 
 # Participants
 
-| Participant  | Responsibility                    |
-| ------------ | --------------------------------- |
-| Orchestrator | Assembles Evidence                |
-| Executor     | Produces supporting Artifacts     |
-| Reviewer     | Validates Evidence                |
-| Principal    | Reviews Evidence when appropriate |
+| Participant  | Responsibility                                 |
+| ------------ | ---------------------------------------------- |
+| Executor     | Produces Artifacts supporting potential Claims |
+| Orchestrator | Assembles Evidence and coordinates review      |
+| Reviewer     | Independently evaluates Evidence               |
+| Principal    | Reviews Evidence when governance requires      |
 
 ---
 
-# Evidence Characteristics
+# Evidence Principles
 
-Evidence SHALL be:
+Evidence SHALL:
 
-* attributable;
-* traceable;
-* reproducible where practical;
-* reviewable;
-* linked to supporting Artifacts.
+* support one or more explicit Claims;
+* reference supporting Artifacts;
+* distinguish observations from conclusions;
+* preserve traceability;
+* remain independently reviewable.
 
-Evidence represents an argument.
+Evidence is a structured argument.
 
-Evidence SHALL distinguish facts from conclusions.
+Evidence is not merely documentation.
 
 ---
 
 # Confidence Model
 
-Confidence represents the degree to which a Claim is substantiated by available Evidence.
+Confidence expresses the degree to which the stated Claims are substantiated by available Evidence.
 
-Confidence SHALL NOT represent a subjective belief or statistical probability.
+Confidence SHALL NOT represent subjective belief or statistical probability.
 
 The canonical confidence levels are:
 
-Low
-    Preliminary evidence exists.
+| Level    | Meaning                                                                                              |
+| -------- | ---------------------------------------------------------------------------------------------------- |
+| Low      | Preliminary supporting information exists.                                                           |
+| Moderate | Supporting Artifacts substantiate the Claims but independent review has not occurred.                |
+| High     | Independent review has concluded that the Claims are adequately supported.                           |
+| Verified | Independent reproduction, measurement, execution, or approved verification has confirmed the Claims. |
 
-Moderate
-    Evidence is internally consistent and references supporting Artifacts.
-
-High
-    Evidence has undergone independent review.
-
-Verified
-    The Claim has been independently reproduced, measured, or validated according to an approved verification method.
-
-Implementations MAY define additional metadata describing the verification method but SHALL preserve the canonical confidence ordering.
-
-Only independent review or independent verification MAY increase confidence beyond Moderate.
+Only independent review or independent verification MAY increase Confidence beyond Moderate.
 
 ---
 
 # Evidence Lifecycle
 
+Evidence SHALL occupy exactly one canonical State:
+
 ```text
 Draft
-    │
-    ▼
+  │
+  ▼
 Assembled
-    │
-    ▼
+  │
+  ▼
 Reviewed
-    │
-    ▼
+  │
+  ▼
 Accepted
-    │
-    ▼
-Archived
+  │
+  ├────────────► Superseded
+  │                   │
+  │                   ▼
+  └────────────── Archived
 ```
 
-Evidence SHALL remain immutable after acceptance except through supersession.
+Accepted Evidence SHALL remain immutable.
 
 ---
 
 # Protocol
 
-## Step 1 — Identify the Claim
+## Step 1 — Identify Claims
 
-Evidence SHALL support one or more explicit Claims.
+The Orchestrator identifies one or more explicit Claims requiring support.
 
-Examples:
+Claims SHOULD be:
 
-* Task Success Criteria satisfied.
-* Performance requirement achieved.
-* Security requirement met.
-* Constraint preserved.
+* observable;
+* testable;
+* independently reviewable.
 
-Claims SHOULD be specific and testable.
+Claims SHALL distinguish facts from conclusions.
 
 ---
 
 ## Step 2 — Gather Supporting Artifacts
 
-The Orchestrator identifies relevant Artifacts.
+Relevant Artifacts SHALL be identified.
 
 Supporting Artifacts SHOULD be:
 
-* durable;
 * attributable;
+* durable;
 * traceable;
 * accessible.
 
-Missing Artifacts SHALL be identified.
+Evidence lacking supporting Artifacts SHALL remain incomplete.
 
 ---
 
-## Step 3 — Validate
+## Step 3 — Assemble Evidence
 
-The Orchestrator or Reviewer evaluates whether the Artifacts support the stated Claim.
+The Orchestrator constructs an Evidence Object containing:
+
+* Claims;
+* supporting Artifacts;
+* related Objects;
+* validation method;
+* initial Confidence assessment.
+
+State:
+
+```text
+Draft → Assembled
+```
+
+---
+
+## Step 4 — Validation
+
+The stated Claims SHALL be evaluated using one or more documented validation methods.
 
 Validation methods MAY include:
 
 * automated testing;
+* measurement;
 * inspection;
 * comparison;
-* measurement;
 * human review;
 * external verification.
 
 The validation method SHALL be recorded.
 
----
-
-## Step 4 — Assess Confidence
-
-Evidence SHALL state a confidence level.
-
-Suggested levels:
-
-* Low
-* Moderate
-* High
-* Verified
-
-Confidence SHALL include justification.
+Validation demonstrates whether the available Artifacts substantiate the stated Claims.
 
 ---
 
-## Step 5 — Publish
+## Step 5 — Independent Review
 
-Accepted Evidence becomes a durable Object.
+A Reviewer independently evaluates:
 
-Publication SHOULD generate an Event.
+* the Claims;
+* supporting Artifacts;
+* reasoning;
+* validation method;
+* assigned Confidence.
+
+The Reviewer MAY:
+
+* accept the Evidence;
+* request additional Evidence;
+* request clarification;
+* reject the Evidence.
+
+State:
+
+```text
+Assembled → Reviewed
+```
+
+Only independent review MAY raise Confidence to High.
 
 ---
 
-## Step 6 — Reference
+## Step 6 — Acceptance
 
-Decisions MAY reference Evidence.
+Evidence SHALL transition to Accepted only when:
 
-Tasks and Goals MAY reference Evidence.
+* Claims are adequately substantiated;
+* supporting Artifacts exist;
+* validation is documented;
+* review is complete;
+* Confidence has been recorded.
 
-Evidence MAY reference additional Evidence.
+Accepted Evidence becomes part of the institutional Knowledge Repository.
 
-Circular references SHOULD be avoided.
+Accepted Evidence SHALL be immutable.
+
+---
+
+## Step 7 — Verification
+
+Where required, an independent verification process MAY be performed.
+
+Verification MAY include:
+
+* independent execution;
+* independent measurement;
+* independent reproduction;
+* formal proof;
+* cryptographic verification.
+
+Only successful independent verification MAY assign Confidence:
+
+```text
+Verified
+```
+
+Verification SHALL identify the verification method and verifying Participant.
+
+---
+
+## Step 8 — Supersession
+
+When newer or more complete Evidence replaces existing Evidence:
+
+```text
+Accepted → Superseded
+```
+
+The superseding Evidence SHALL reference the superseded Evidence.
+
+Historical traceability SHALL remain preserved.
+
+---
+
+## Step 9 — Archival
+
+Superseded or obsolete Evidence MAY transition to Archived.
+
+Archival SHALL preserve:
+
+* Claims;
+* supporting Artifacts;
+* Confidence history;
+* related Decisions;
+* complete traceability.
 
 ---
 
@@ -199,22 +273,24 @@ Evidence SHALL distinguish:
 * interpretations;
 * conclusions.
 
-Observations SHOULD be directly supported by Artifacts.
+Observations SHALL be directly supported by Artifacts.
 
-Conclusions SHOULD identify the reasoning connecting observations to Claims.
+Interpretations SHALL identify the reasoning connecting observations to Claims.
+
+Conclusions SHALL remain independently reviewable.
 
 ---
 
 # Traceability
 
-Evidence SHALL be traceable to:
+Every Evidence Object SHALL remain traceable to:
 
 * supporting Artifacts;
 * originating Tasks;
 * related Goals;
 * resulting Decisions.
 
-Complete traceability SHOULD be possible.
+Complete historical reconstruction SHOULD be possible.
 
 ---
 
@@ -222,25 +298,29 @@ Complete traceability SHOULD be possible.
 
 Evidence SHALL remain incomplete when:
 
-* required Artifacts are unavailable;
-* validation cannot be reproduced;
-* confidence cannot be justified.
+* supporting Artifacts are unavailable;
+* Claims cannot be validated;
+* validation is undocumented;
+* Confidence cannot be justified.
 
-Incomplete Evidence SHALL NOT justify Decisions.
+Incomplete Evidence SHALL NOT support acceptance or completion Decisions.
 
 ---
 
 # Relationship to Other Objects
 
-Evidence references Artifacts.
+Artifacts provide observations.
 
-Evidence supports Decisions.
+Evidence constructs arguments.
+
+Decisions authorize state transitions.
 
 Evidence SHALL NOT:
 
 * replace Artifacts;
+* redefine Goals;
 * authorize completion;
-* redefine Goals.
+* substitute for Decisions.
 
 ---
 
@@ -248,11 +328,12 @@ Evidence SHALL NOT:
 
 Evidence SHALL be considered complete when:
 
-* one or more explicit Claims are identified;
+* one or more explicit Claims exist;
 * supporting Artifacts are referenced;
 * validation is documented;
-* confidence is assessed;
-* traceability is preserved.
+* Confidence is recorded;
+* traceability is preserved;
+* review is complete.
 
 ---
 
@@ -262,9 +343,11 @@ A conforming implementation SHALL:
 
 * identify explicit Claims;
 * reference supporting Artifacts;
+* document validation methods;
+* record Confidence;
 * preserve traceability;
-* distinguish observation from conclusion;
-* record confidence.
+* distinguish validation from verification;
+* preserve Accepted Evidence as immutable.
 
 ---
 
@@ -272,7 +355,7 @@ A conforming implementation SHALL:
 
 **MTH-033-REQ-001**
 
-Evidence SHALL support explicit Claims.
+Evidence SHALL support one or more explicit Claims.
 
 **MTH-033-REQ-002**
 
@@ -284,9 +367,17 @@ Evidence SHALL identify its validation method.
 
 **MTH-033-REQ-004**
 
-Evidence SHALL record confidence.
+Evidence SHALL record a Confidence assessment.
 
 **MTH-033-REQ-005**
+
+Only independent review or independent verification MAY increase Confidence beyond Moderate.
+
+**MTH-033-REQ-006**
+
+Accepted Evidence SHALL be immutable.
+
+**MTH-033-REQ-007**
 
 Evidence SHALL NOT authorize state transitions.
 
@@ -294,16 +385,22 @@ Evidence SHALL NOT authorize state transitions.
 
 # Design Rationale
 
-Evidence is the bridge between execution and governance.
+The Evidence Protocol separates execution from governance.
 
-Rather than relying upon assertions that work has been completed, Méthodos requires explicit reasoning linking observable Artifacts to verifiable Claims.
+Executors produce Artifacts.
 
-This separation allows multiple independent reviewers to evaluate the same Artifacts while preserving transparency and reproducibility.
+Orchestrators assemble Evidence.
+
+Reviewers evaluate the resulting argument.
+
+Decisions act upon that evaluated Evidence.
+
+This separation enables independent validation, reproducible reasoning, transparent governance, and long-term institutional learning while preserving a clear distinction between observations, arguments, and authorized outcomes.
 
 ---
 
 # Revision History
 
-| Version | Date          | Notes             |
-| ------- | ------------- | ----------------- |
-| 0.1.0   | Initial draft | First publication |
+| Version | Date           | Notes                                                                             |
+| ------- | -------------- | --------------------------------------------------------------------------------- |
+| 0.2.0   | First revision | Aligned with canonical Evidence model, confidence semantics, and governance chain |
