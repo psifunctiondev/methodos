@@ -97,10 +97,6 @@ An Orchestrator is decomposing the Goal into Tasks.
 
 One or more Tasks are executing in pursuit of the Goal.
 
-## Waiting
-
-The Goal is paused pending external input, dependency, or timing.
-
 ## Blocked
 
 Progress cannot continue without intervention.
