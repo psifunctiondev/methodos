@@ -114,7 +114,7 @@ A Goal Dossier is the complete institutional record for accomplishing a single G
 A dossier typically contains:
 
 ```text
-SYSTEM.md
+METHODOS.md
 
 Goals/
 Tasks/

@@ -85,7 +85,7 @@ OpenClaw SHOULD operate according to the following loop:
 
 OpenClaw SHALL treat the Knowledge Repository as the authoritative intake location for Goals.
 
-For the current reference implementation, Goals MAY be represented as Markdown files in a shared Obsidian vault.
+For the current reference implementation, Goals MAY be represented as Markdown files in a shared Obsidian Knowledge Repository.
 
 OpenClaw SHOULD only plan Goals whose State is `Ready`.
 
