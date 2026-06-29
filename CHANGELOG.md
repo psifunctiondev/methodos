@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.2 — Round 3 Cross-Document Hygiene
+
+### Fixed
+
+- Corrected `MTH-001 Terminology`: moved `Intent Envelope` and `Decision` definitions into `# Normative Definitions` (with `Intent Envelope` adjacent to `Goal` and `Decision` adjacent to `Evidence`). They were previously orphan sections between `# Normative Requirements` and `# Future Directions`.
+- Corrected `MTH-024 Coordination Fabric`: moved `# Lease Semantics` under `# Operational State` and made the prose descriptive (deferring normative wording to `MTH-024-REQ-004`) instead of duplicating the same `SHALL`s.
+- Verified `dossier/` templates contain no Goal-state `Waiting` references; the only remaining `Waiting` reference (`dossier/SYSTEM.md:66`) is correctly under *Task* states. No fix required.
+
 ## Unreleased — Agent Feedback Integration
 
 ### Added

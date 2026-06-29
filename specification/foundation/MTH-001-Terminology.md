@@ -80,6 +80,16 @@ Goals exist independently of Tasks.
 
 ---
 
+## Intent Envelope
+
+The Principal-owned semantic core of a Goal.
+
+The Intent Envelope defines the Objective, Success Criteria, Constraints, and Acceptance Criteria that must be preserved through planning, delegation, execution, review, and archival.
+
+See `MTH-011 Intent Envelope`.
+
+---
+
 ## Task
 
 A bounded unit of work created in pursuit of a single Goal.
@@ -125,6 +135,18 @@ Information supporting the claim that a Task has achieved its intended outcome.
 Evidence MAY include one or more Artifacts.
 
 Completion without Evidence SHALL be considered incomplete.
+
+---
+
+## Decision
+
+A durable governance Object that records an authoritative outcome.
+
+Decisions authorize or reject state transitions, approvals, completions, supersessions, and other governance-relevant conclusions.
+
+Final Decisions are immutable and may only be changed through superseding Decisions.
+
+See `MTH-016 Decision`.
 
 ---
 
@@ -233,26 +255,6 @@ Implementations SHOULD avoid introducing synonymous terminology for existing def
 
 ---
 
-## Intent Envelope
-
-The Principal-owned semantic core of a Goal.
-
-The Intent Envelope defines the Objective, Success Criteria, Constraints, and Acceptance Criteria that must be preserved through planning, delegation, execution, review, and archival.
-
-See `MTH-011 Intent Envelope`.
-
-## Decision
-
-A durable governance Object that records an authoritative outcome.
-
-Decisions authorize or reject state transitions, approvals, completions, supersessions, and other governance-relevant conclusions.
-
-Final Decisions are immutable and may only be changed through superseding Decisions.
-
-See `MTH-016 Decision`.
-
----
-
 # Future Directions
 
 Future revisions may define additional concepts including:
@@ -271,6 +273,7 @@ These concepts are intentionally deferred until later specifications establish t
 
 # Revision History
 
-| Version | Date          | Notes             |
-| ------- | ------------- | ----------------- |
-| 0.1.0   | Initial draft | First publication |
+| Version | Date          | Notes                                                                                     |
+| ------- | ------------- | ----------------------------------------------------------------------------------------- |
+| 0.1.0   | Initial draft | First publication                                                                          |
+| 0.1.1   | Round 3       | Added `Intent Envelope` and `Decision` to Normative Definitions (moved from round-3 diff) |

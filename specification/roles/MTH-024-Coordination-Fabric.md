@@ -76,6 +76,27 @@ Examples of operational state include:
 
 Operational state is expected to change frequently.
 
+## Lease Semantics
+
+A Coordination Fabric MAY implement Task assignment using renewable leases.
+
+A lease:
+
+* grants exclusive execution authority to one Participant;
+* has a finite lifetime;
+* MAY be renewed through periodic heartbeats;
+* expires automatically if renewal ceases.
+
+Upon lease expiration, the Coordination Fabric releases exclusive ownership.
+
+If the associated Task has not transitioned to a terminal state, it becomes eligible for reassignment according to implementation policy.
+
+Lease duration, heartbeat cadence, expiration timeout, and reassignment strategy are implementation-specific.
+
+Reference implementations MAY define recommended defaults.
+
+The normative behavior of lease expiration is defined by [`MTH-024-REQ-004`](#normative-requirements).
+
 ---
 
 # Durability
@@ -136,27 +157,6 @@ A conforming Coordination Fabric:
 
 ---
 
-# Lease Semantics
-
-A Coordination Fabric MAY implement Task assignment using renewable leases.
-
-A lease:
-
-* grants exclusive execution authority to one Participant;
-* has a finite lifetime;
-* MAY be renewed through periodic heartbeats;
-* expires automatically if renewal ceases.
-
-Upon lease expiration the Coordination Fabric SHALL release exclusive ownership.
-
-If the associated Task has not transitioned to a terminal state, it SHALL become eligible for reassignment according to implementation policy.
-
-Lease duration, heartbeat cadence, expiration timeout, and reassignment strategy are implementation-specific.
-
-Reference implementations MAY define recommended defaults.
-
----
-
 # Normative Requirements
 
 **MTH-024-REQ-001**
@@ -193,6 +193,7 @@ Other messaging systems, distributed queues, event buses, or coordination servic
 
 # Revision History
 
-| Version | Date          | Notes             |
-| ------- | ------------- | ----------------- |
-| 0.1.0   | Initial draft | First publication |
+| Version | Date          | Notes                                                                                              |
+| ------- | ------------- | -------------------------------------------------------------------------------------------------- |
+| 0.1.0   | Initial draft | First publication                                                                                   |
+| 0.1.1   | Round 3       | Moved `# Lease Semantics` under `# Operational State`; deferrals to `MTH-024-REQ-004` normativized |
