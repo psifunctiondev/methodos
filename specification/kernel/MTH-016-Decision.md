@@ -1,6 +1,6 @@
 # Méthodos Specification
 
-**Identifier:** MTH-015
+**Identifier:** MTH-016
 
 **Title:** Decision Object
 
@@ -188,27 +188,27 @@ An implementation conforms to this specification if every Decision:
 
 # Normative Requirements
 
-**MTH-015-REQ-001**
+**MTH-016-REQ-001**
 
 Every Decision SHALL reference one or more Evidence Objects.
 
-**MTH-015-REQ-002**
+**MTH-016-REQ-002**
 
 Every Decision SHALL identify its Decision Maker.
 
-**MTH-015-REQ-003**
+**MTH-016-REQ-003**
 
 Every Decision SHALL record an explicit Outcome.
 
-**MTH-015-REQ-004**
+**MTH-016-REQ-004**
 
 Final Decisions SHALL be immutable.
 
-**MTH-015-REQ-005**
+**MTH-016-REQ-005**
 
 Authorized state transitions SHALL reference the Decision that permitted them.
 
-**MTH-015-REQ-006**
+**MTH-016-REQ-006**
 
 Decisions SHALL remain independently reviewable.
 

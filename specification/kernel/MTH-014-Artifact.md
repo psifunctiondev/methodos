@@ -1,6 +1,6 @@
 # Méthodos Specification
 
-**Identifier:** MTH-013
+**Identifier:** MTH-014
 
 **Title:** Artifact Object
 
@@ -170,23 +170,23 @@ An implementation conforms to this specification if every Artifact:
 
 # Normative Requirements
 
-**MTH-013-REQ-001**
+**MTH-014-REQ-001**
 
 Every Artifact SHALL have a stable Identifier.
 
-**MTH-013-REQ-002**
+**MTH-014-REQ-002**
 
 Every Artifact SHALL reference at least one related Object.
 
-**MTH-013-REQ-003**
+**MTH-014-REQ-003**
 
 Artifacts SHALL possess a durable representation.
 
-**MTH-013-REQ-004**
+**MTH-014-REQ-004**
 
 Artifacts SHALL remain independently retrievable.
 
-**MTH-013-REQ-005**
+**MTH-014-REQ-005**
 
 Artifacts SHALL NOT be treated as Evidence without explicit evaluation.
 
