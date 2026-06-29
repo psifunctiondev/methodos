@@ -242,6 +242,14 @@ Assigned
 
 The delegated Task SHALL include sufficient inherited Intent Envelope context for correct execution.
 
+Task assignment SHALL be exclusive.
+
+If multiple Executors may discover the same Ready Task, the claim operation SHALL be atomic.
+
+Coordination Fabric implementations MAY use leases, reservations, or equivalent mechanisms to preserve exclusive assignment.
+
+Lease duration, heartbeat interval, and requeue policy are implementation-specific. The Redis reference implementation defines recommended defaults in `RI-003-Redis.md` under `Reference Lease Defaults`.
+
 ---
 
 ## Step 4 — Acceptance by Executor
@@ -415,6 +423,10 @@ Task acceptance SHALL require a Final Decision conforming to MTH-034.
 **MTH-031-REQ-008**
 
 Operational scheduling mechanisms SHALL NOT introduce additional canonical Task States.
+
+**MTH-031-REQ-009**
+
+Task claim or assignment operations SHALL be atomic when multiple Executors may compete for the same Task.
 
 ---
 
