@@ -4,7 +4,7 @@
   "title": "Méthodos Task",
   "type": "object",
   "additionalProperties": true,
-  "required": ["id", "type", "title", "state", "parent_goal", "owner", "priority", "objective", "success_criteria", "inherited_intent_context", "created", "modified"],
+  "required": ["id", "type", "title", "state", "parent_goal", "orchestrator", "priority", "objective", "success_criteria", "inherited_intent_context", "created", "modified"],
   "properties": {
     "id": { "type": "string", "pattern": "^T-[0-9]{8}-[0-9]{3}$" },
     "type": { "const": "Task" },
@@ -14,7 +14,7 @@
       "enum": ["Draft", "Ready", "Assigned", "Executing", "Waiting", "Blocked", "Ready for Review", "Accepted", "Cancelled", "Archived"]
     },
     "parent_goal": { "type": "string", "pattern": "^G-[0-9]{8}-[0-9]{3}$" },
-    "owner": { "type": "string", "minLength": 1 },
+    "orchestrator": { "type": "string", "minLength": 1 },
     "assigned_to": { "type": ["string", "null"] },
     "priority": { "type": "string", "enum": ["Low", "Normal", "High", "Critical"] },
     "objective": { "type": "string", "minLength": 1 },

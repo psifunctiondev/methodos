@@ -4,7 +4,7 @@
   "title": "Méthodos Goal",
   "type": "object",
   "additionalProperties": true,
-  "required": ["id", "type", "title", "state", "principal", "owner", "priority", "intent_envelope", "created", "modified"],
+  "required": ["id", "type", "title", "state", "principal", "orchestrator", "priority", "intent_envelope", "created", "modified"],
   "properties": {
     "id": { "type": "string", "pattern": "^G-[0-9]{8}-[0-9]{3}$" },
     "type": { "const": "Goal" },
@@ -14,7 +14,7 @@
       "enum": ["Draft", "Ready", "Planning", "Active", "Blocked", "Review", "Complete", "Archived"]
     },
     "principal": { "type": "string", "minLength": 1 },
-    "owner": { "type": "string", "minLength": 1 },
+    "orchestrator": { "type": "string", "minLength": 1 },
     "priority": { "type": "string", "enum": ["Low", "Normal", "High", "Critical"] },
     "intent_envelope": {
       "type": "object",

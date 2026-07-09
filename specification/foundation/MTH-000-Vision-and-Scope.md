@@ -162,7 +162,7 @@ Every Task MUST belong to exactly one parent Goal.
 
 **MTH-000-REQ-003**
 
-Every Task MUST have exactly one current owner.
+Every Task MUST have exactly one current Executor.
 
 **MTH-000-REQ-004**
 

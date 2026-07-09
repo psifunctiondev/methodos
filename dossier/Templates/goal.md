@@ -4,7 +4,7 @@ type: Goal
 title:
 state: Draft
 principal:
-owner: OpenClaw
+orchestrator: OpenClaw
 priority: Normal
 created:
 modified:
@@ -96,8 +96,8 @@ Required before Planning:
 
 ## Task Summary
 
-| Task | State | Owner | Assigned To |
-|------|-------|-------|-------------|
+| Task | State | Assigned To |
+|------|-------|-------------|
 
 ---
 

@@ -67,7 +67,7 @@ Every Task SHALL contain:
 * Title
 * Description
 * Current State
-* Owner
+* Executor
 * Priority
 * Objective
 * Success Criteria
@@ -89,17 +89,37 @@ A Task MAY additionally contain:
 
 ---
 
-# Ownership
+# Responsibility and Assignment
 
-Every Task SHALL have exactly one Owner.
+Every Task SHALL identify exactly one Orchestrator.
 
-Ownership MAY transfer only through a defined Protocol.
+The Orchestrator is responsible for Task planning, lifecycle coordination, assignment, reassignment, review preparation, and authorized Task state transitions.
 
-Only one Participant MAY actively own a Task at any point in time.
+A Task MAY be assigned to one Participant for execution.
 
-Assignment and ownership are distinct concepts.
+`assigned_to` identifies the Participant currently responsible for performing the Task. Assignment MAY change through the Task Protocol without changing the Task’s Orchestrator.
 
-An assigned Task remains owned by its Owner until ownership is explicitly transferred.
+When multiple Executors may compete for a Ready Task, the Coordination Fabric SHALL ensure that the claim operation is atomic.
+
+A claim or lease grants one Participant exclusive execution authority for a finite period. Claims, leases, reservations, heartbeats, and lease expiration are Coordination Fabric mechanics; they are not Task states and do not change the Task’s Orchestrator.
+
+If an assignment or lease expires, is released, or becomes invalid, the Task SHALL become eligible for reassignment according to the Task Protocol and applicable Coordination Fabric policy.
+
+---
+
+# Orchestrator and Executor
+
+The Orchestrator and Executor are distinct Roles.
+
+The Orchestrator is responsible for Task lifecycle coordination. This includes Task creation, decomposition, readiness validation, assignment, reassignment, dependency management, review preparation, and authorized Task state transitions.
+
+The Executor is responsible for performing the work defined by an assigned Task and producing the required Artifacts, Evidence, Events, and status updates.
+
+A Task SHALL identify exactly one Orchestrator.
+
+A Task MAY be assigned to one Participant acting as Executor.
+
+The Orchestrator and Executor MAY be performed by the same Participant in a single-participant or small-scale implementation. Implementations SHALL nevertheless preserve the distinction between coordination authority and execution responsibility.
 
 ---
 
@@ -249,16 +269,17 @@ Completion of a Task SHALL result in sufficient Evidence to support review.
 Acceptance without supporting Evidence is non-conforming.
 
 ---
-
 # Invariants
 
 The following SHALL always remain true:
 
 * Every Task belongs to exactly one Goal.
-* Every Task has exactly one Owner.
+* Every Task identifies exactly one Orchestrator.
 * Every Task occupies exactly one canonical State.
 * Every Task preserves the parent Goal's Intent Envelope.
 * Every Accepted Task references supporting Evidence.
+* A Task MAY be assigned to at most one Participant at a time.
+* When a Task is actively claimed for execution, exactly one Participant acting as Executor SHALL hold the active claim or lease.
 
 ---
 
@@ -283,7 +304,7 @@ Every Task SHALL belong to exactly one Goal.
 
 **MTH-012-REQ-002**
 
-Every Task SHALL have exactly one Owner.
+Every Task SHALL have exactly one Orchestrator.
 
 **MTH-012-REQ-003**
 

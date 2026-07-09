@@ -60,6 +60,20 @@ Roles define behavior independently of any specific implementation.
 
 ---
 
+## Responsibility Naming
+
+Méthodos SHALL use responsibility-specific fields rather than a generic `owner` field.
+
+- `principal` identifies the authority that owns and authorizes intent.
+- `orchestrator` identifies the Participant responsible for Goal-level coordination.
+- `assigned_to` identifies the Participant currently responsible for Task execution.
+- `reviewer` identifies the Participant responsible for review.
+- `steward` or `maintainer` MAY identify ongoing custody of an Artifact or system component.
+
+The term `owner` SHALL NOT be used without an explicitly defined domain-specific meaning.
+
+---
+
 ## Implementation
 
 A concrete realization of one or more Roles.
