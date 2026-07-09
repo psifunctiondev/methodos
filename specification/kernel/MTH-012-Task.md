@@ -97,7 +97,7 @@ The Orchestrator is responsible for Task planning, lifecycle coordination, assig
 
 A Task MAY be assigned to one Participant for execution.
 
-`assigned_to` identifies the Participant currently responsible for performing the Task. Assignment MAY change through the Task Protocol without changing the Task’s Orchestrator.
+`executor` identifies the Participant currently responsible for performing the Task. Assignment MAY change through the Task Protocol without changing the Task’s Orchestrator.
 
 When multiple Executors may compete for a Ready Task, the Coordination Fabric SHALL ensure that the claim operation is atomic.
 
