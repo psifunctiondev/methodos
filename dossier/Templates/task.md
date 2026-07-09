@@ -4,7 +4,7 @@ type: Task
 title:
 state: Draft
 parent_goal:
-owner: OpenClaw
+orchestrator: OpenClaw
 assigned_to:
 priority: Normal
 created:
