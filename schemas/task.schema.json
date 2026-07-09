@@ -15,7 +15,7 @@
     },
     "parent_goal": { "type": "string", "pattern": "^G-[0-9]{8}-[0-9]{3}$" },
     "orchestrator": { "type": "string", "minLength": 1 },
-    "assigned_to": { "type": ["string", "null"] },
+    "executor": { "type": ["string", "null"] },
     "priority": { "type": "string", "enum": ["Low", "Normal", "High", "Critical"] },
     "objective": { "type": "string", "minLength": 1 },
     "success_criteria": { "type": "array", "items": { "type": "string" }, "minItems": 1 },

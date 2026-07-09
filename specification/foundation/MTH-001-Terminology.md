@@ -66,7 +66,7 @@ Méthodos SHALL use responsibility-specific fields rather than a generic `owner`
 
 - `principal` identifies the authority that owns and authorizes intent.
 - `orchestrator` identifies the Participant responsible for Goal-level coordination.
-- `assigned_to` identifies the Participant currently responsible for Task execution.
+- `executor` identifies the Participant currently responsible for performing a Task.
 - `reviewer` identifies the Participant responsible for review.
 - `steward` or `maintainer` MAY identify ongoing custody of an Artifact or system component.
 
