@@ -4,7 +4,7 @@ type: Goal
 title:
 state: Draft
 principal:
-orchestrator: OpenClaw
+orchestrator:
 priority: Normal
 created:
 modified:
@@ -26,9 +26,13 @@ tags: []
 
 ## Objective
 
+<!-- Desired end state. Define what should become true, not the Task plan. -->
+
 ---
 
 ## Success Criteria
+
+<!-- Observable conditions that mean the Goal succeeded. -->
 
 - [ ]
 
@@ -36,21 +40,47 @@ tags: []
 
 ## Constraints
 
+<!-- Conditions that SHALL remain true during execution or in the resulting state. -->
+
 - None
 
 ---
 
 ## Acceptance Criteria
 
+<!-- Observable validation conditions required for closure. These SHOULD support Evidence Claims and validation planning. -->
+
+- [ ]
+
 ---
 
 ## Assumptions
+
+<!-- Propositions currently treated as true. Material Assumptions will be evaluated during Planning. -->
 
 - None
 
 ---
 
 ## Out of Scope
+
+<!-- Explicit boundaries on work this Goal does not authorize or require. -->
+
+- None
+
+---
+
+## Suggested Approaches
+
+<!-- Optional, non-binding Principal guidance. Avoid MUST/SHALL/REQUIRED here. -->
+
+- None
+
+---
+
+## Domain Definitions
+
+<!-- Optional Goal-specific terminology, taxonomies, classification rules, identifiers, or qualification rules. -->
 
 - None
 
@@ -59,6 +89,8 @@ tags: []
 # Supporting Information
 
 ## References
+
+<!-- Do not place passwords, API keys, tokens, cookies, private keys, or other Secret Material in the Dossier. Use an approved Secret Reference or authentication mechanism. -->
 
 ---
 
@@ -90,7 +122,19 @@ Required before Planning:
 - [ ] Constraints present
 - [ ] Acceptance Criteria present
 - [ ] Principal present
+- [ ] Orchestrator present
 - [ ] Priority present
+- [ ] No Secret Material stored in the Dossier
+- [ ] Mandatory requirements are expressed as Constraints, not Suggested Approaches
+
+---
+
+## Planning Validation
+
+- [ ] Material Assumptions identified
+- [ ] Material Assumptions validated, assigned validation work, accepted as authorized risk, or recorded as blockers
+- [ ] Validation needs derived from Success Criteria and Acceptance Criteria
+- [ ] Anticipated Evidence Claims and validation methods identified
 
 ---
 

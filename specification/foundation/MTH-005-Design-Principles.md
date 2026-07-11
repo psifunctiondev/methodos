@@ -4,7 +4,7 @@
 
 **Title:** Design Principles
 
-**Version:** 0.1.0
+**Version:** 0.1.1
 
 **Status:** Draft
 
@@ -98,7 +98,7 @@ Architectural dependencies on specific technologies SHOULD be minimized.
 
 Evidence should be generated as work progresses rather than reconstructed after completion.
 
-Continuous evidence improves transparency, validation, and recovery.
+Continuous Evidence improves transparency, validation, and recovery.
 
 ---
 
@@ -118,7 +118,7 @@ Automation expands human capability.
 
 It does not replace human responsibility.
 
-Architectures SHOULD preserve meaningful human oversight over goals, priorities, and irreversible decisions.
+Architectures SHOULD preserve meaningful human oversight over Goals, priorities, and irreversible Decisions.
 
 ---
 
@@ -142,13 +142,41 @@ Backward compatibility SHOULD be preserved whenever practical.
 
 ---
 
+# DP-13 — Distinguish Intent From Guidance
+
+The Principal may possess useful implementation knowledge without intending to constrain execution.
+
+Architectures SHOULD preserve non-binding guidance separately from normative Constraints.
+
+Suggested Approaches SHOULD remain clearly distinguishable from required behavior.
+
+Normative terms such as `MUST`, `SHALL`, and `REQUIRED` SHOULD NOT be used to express non-binding guidance.
+
+If a method or implementation condition is mandatory, it SHOULD be expressed as a Constraint or other applicable normative requirement.
+
+---
+
+# DP-14 — Design Acceptance for Evidence
+
+Acceptance conditions SHOULD be observable and capable of validation.
+
+Acceptance Criteria SHOULD be written so that Evidence Claims and validation activities can be derived from them without reconstructing the Principal's intent.
+
+Architectures SHOULD prefer explicit validation conditions over subjective declarations of completion.
+
+---
+
 # Relationship to Requirements
 
-Requirements describe what implementations MUST do.
+Requirements describe what implementations MUST or SHALL do.
 
 Design Principles describe how architects SHOULD think.
 
 When a future implementation satisfies all requirements but violates the spirit of these principles, the architecture SHOULD be reconsidered.
+
+RFC 2119-style normative terms retain their normative force when used by a Specification or Protocol.
+
+Within Principal-authored non-binding guidance, such terms SHOULD be avoided because they may create ambiguity between guidance and Constraints.
 
 ---
 
@@ -158,12 +186,14 @@ Architects are encouraged to evaluate proposed changes by asking:
 
 * Does this preserve the Principal's intent?
 * Does this reduce or increase hidden state?
-* Does this strengthen or weaken role boundaries?
+* Does this strengthen or weaken Role boundaries?
 * Does this improve replaceability?
 * Does this preserve institutional knowledge?
 * Does this improve recoverability?
 * Does this make the system easier to understand?
 * Does this improve collaboration rather than merely optimizing one component?
+* Does this distinguish mandatory Constraints from non-binding guidance?
+* Can required acceptance conditions be supported by observable Evidence?
 
 ---
 
@@ -177,6 +207,7 @@ New principles SHOULD remain concise, durable, and implementation-independent.
 
 # Revision History
 
-| Version | Date          | Notes             |
-| ------- | ------------- | ----------------- |
-| 0.1.0   | Initial draft | First publication |
+| Version | Date | Notes |
+|---|---|---|
+| 0.1.0 | Initial draft | First publication |
+| 0.1.1 | 2026-07-11 | Added intent-versus-guidance and evidence-oriented acceptance principles |

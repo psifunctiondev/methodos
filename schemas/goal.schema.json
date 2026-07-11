@@ -2,38 +2,187 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://psifunctiondev.github.io/methodos/schemas/goal.schema.json",
   "title": "Méthodos Goal",
+  "description": "Schema for the canonical serialized Méthodos Goal Object. Dossier Markdown and YAML front matter are human/agent projections and are not required to mirror this JSON structure one-to-one.",
   "type": "object",
   "additionalProperties": true,
-  "required": ["id", "type", "title", "state", "principal", "orchestrator", "priority", "intent_envelope", "created", "modified"],
+  "required": [
+    "id",
+    "type",
+    "title",
+    "state",
+    "principal",
+    "orchestrator",
+    "priority",
+    "intent_envelope",
+    "created",
+    "modified"
+  ],
   "properties": {
-    "id": { "type": "string", "pattern": "^G-[0-9]{8}-[0-9]{3}$" },
-    "type": { "const": "Goal" },
-    "title": { "type": "string", "minLength": 1 },
+    "id": {
+      "type": "string",
+      "pattern": "^G-[0-9]{8}-[0-9]{3}$"
+    },
+    "type": {
+      "const": "Goal"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
     "state": {
       "type": "string",
-      "enum": ["Draft", "Ready", "Planning", "Active", "Blocked", "Review", "Complete", "Archived"]
+      "enum": [
+        "Draft",
+        "Ready",
+        "Planning",
+        "Active",
+        "Blocked",
+        "Review",
+        "Complete",
+        "Archived"
+      ]
     },
-    "principal": { "type": "string", "minLength": 1 },
-    "orchestrator": { "type": "string", "minLength": 1 },
-    "priority": { "type": "string", "enum": ["Low", "Normal", "High", "Critical"] },
+    "principal": {
+      "type": "string",
+      "minLength": 1
+    },
+    "orchestrator": {
+      "type": "string",
+      "minLength": 1
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "Low",
+        "Normal",
+        "High",
+        "Critical"
+      ]
+    },
     "intent_envelope": {
       "type": "object",
-      "required": ["objective", "success_criteria", "constraints", "acceptance_criteria"],
+      "additionalProperties": true,
+      "required": [
+        "objective",
+        "success_criteria",
+        "constraints",
+        "acceptance_criteria"
+      ],
       "properties": {
-        "objective": { "type": "string", "minLength": 1 },
-        "success_criteria": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
-        "constraints": { "type": "array", "items": { "type": "string" } },
-        "acceptance_criteria": { "type": "string", "minLength": 1 },
-        "assumptions": { "type": "array", "items": { "type": "string" } },
-        "out_of_scope": { "type": "array", "items": { "type": "string" } }
+        "objective": {
+          "type": "string",
+          "minLength": 1
+        },
+        "success_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "acceptance_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "out_of_scope": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "suggested_approaches": {
+          "type": "array",
+          "description": "Non-binding Principal guidance. Mandatory requirements belong in constraints.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "domain_definitions": {
+          "type": "array",
+          "description": "Goal-specific terminology, taxonomies, classifications, identifiers, thresholds, or qualification rules.",
+          "items": {
+            "type": "object",
+            "required": [
+              "term",
+              "definition"
+            ],
+            "additionalProperties": true,
+            "properties": {
+              "term": {
+                "type": "string",
+                "minLength": 1
+              },
+              "code": {
+                "type": "string",
+                "minLength": 1
+              },
+              "definition": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
       }
     },
-    "tasks": { "type": "array", "items": { "type": "string" } },
-    "evidence": { "type": "array", "items": { "type": "string" } },
-    "decisions": { "type": "array", "items": { "type": "string" } },
-    "events": { "type": "array", "items": { "type": "string" } },
-    "created": { "type": "string", "format": "date-time" },
-    "modified": { "type": "string", "format": "date-time" },
-    "tags": { "type": "array", "items": { "type": "string" } }
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "modified": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
   }
 }

@@ -28,7 +28,7 @@ Future specifications MAY extend this model but SHALL NOT contradict it.
 
 The Object Model establishes a common vocabulary for the entities manipulated by conforming implementations.
 
-Every Object possesses identity, ownership, state, relationships, and lifecycle.
+Every Object possesses identity, state, relationships, and lifecycle.
 
 ---
 
@@ -38,7 +38,6 @@ Every Méthodos Object SHALL possess:
 
 * Identifier
 * Object Type
-* Owner
 * Current State
 * Creation Timestamp
 * Modification Timestamp
@@ -263,13 +262,17 @@ No restriction is placed upon additional relationships provided semantic integri
 
 ---
 
-# Ownership
+# Responsibility and Provenance
 
-Every Object SHALL possess exactly one current Owner.
+Méthodos Objects SHALL use object-specific responsibility and provenance semantics.
 
-Ownership MAY change through documented Protocols.
+An Object specification SHALL identify the Roles, Participants, or provenance fields required to interpret authority and responsibility for that Object.
 
-Ownership SHALL remain observable.
+Responsibility-specific concepts include Principal, Orchestrator, Executor assignment, Reviewer, Creator, Steward, and Maintainer.
+
+No universal `owner` property is implied by the Object Model.
+
+Applicable responsibility assignments and provenance SHALL remain observable.
 
 ---
 
@@ -297,7 +300,7 @@ Implementations MAY introduce new Object types.
 
 New Objects SHALL:
 
-* define ownership,
+* define responsibility and provenance semantics where applicable,
 * define lifecycle,
 * define relationships,
 * define normative behavior.
@@ -312,7 +315,7 @@ Every Object SHALL possess a stable identifier.
 
 **MTH-004-REQ-002**
 
-Every Object SHALL possess exactly one Owner.
+Every Object specification SHALL explicitly define applicable responsibility and provenance semantics.
 
 **MTH-004-REQ-003**
 
@@ -334,7 +337,7 @@ Representing the Méthodos domain as interconnected Objects provides:
 
 * implementation independence,
 * replaceability,
-* explicit ownership,
+* explicit responsibility boundaries and provenance,
 * graph-based reasoning,
 * consistent lifecycle management,
 * protocol interoperability.

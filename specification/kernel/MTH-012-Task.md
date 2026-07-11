@@ -67,7 +67,7 @@ Every Task SHALL contain:
 * Title
 * Description
 * Current State
-* Executor
+* Orchestrator
 * Priority
 * Objective
 * Success Criteria
@@ -79,7 +79,7 @@ Every Task SHALL contain:
 
 A Task MAY additionally contain:
 
-* Assigned Participant
+* Assigned To
 * Artifacts
 * Evidence
 * Decisions
@@ -95,9 +95,9 @@ Every Task SHALL identify exactly one Orchestrator.
 
 The Orchestrator is responsible for Task planning, lifecycle coordination, assignment, reassignment, review preparation, and authorized Task state transitions.
 
-A Task MAY be assigned to one Participant for execution.
+A Task MAY be assigned to one Participant acting as Executor.
 
-`executor` identifies the Participant currently responsible for performing the Task. Assignment MAY change through the Task Protocol without changing the Task’s Orchestrator.
+`assigned_to` identifies the Participant currently responsible for performing the Task as Executor. Assignment MAY change through the Task Protocol without changing the Task's Orchestrator.
 
 When multiple Executors may compete for a Ready Task, the Coordination Fabric SHALL ensure that the claim operation is atomic.
 
@@ -292,7 +292,7 @@ A conforming implementation SHALL ensure that every Task:
 * preserves the Intent Envelope;
 * follows the canonical lifecycle;
 * produces Evidence supporting acceptance;
-* maintains observable ownership and traceability.
+* maintains observable responsibility, assignment, and traceability.
 
 ---
 
@@ -330,7 +330,7 @@ The following behaviors are non-conforming or discouraged:
 
 * Tasks without Success Criteria.
 * Tasks belonging to multiple Goals.
-* Multiple active Owners.
+* Multiple simultaneous active Executors or claim holders for the same Task.
 * Reinterpreting the inherited Intent Envelope.
 * Completing Tasks based solely on assertion.
 * Embedding implementation-specific scheduling semantics into the canonical object.

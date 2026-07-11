@@ -106,8 +106,8 @@ Authority Delegated By:
 
 ## Required Actions
 
-| Action | Owner |
-| ------ | ----- |
+| Action | Responsible Participant |
+| ------ | ----------------------- |
 
 ---
 

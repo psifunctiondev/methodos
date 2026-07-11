@@ -92,15 +92,61 @@ Corrections require new or superseding Evidence.
 
 ---
 
-# Ownership Domains
+# Responsibility Domains
 
 The Principal owns the Intent Envelope.
 
-The Orchestrator owns planning, coordination, review preparation, and lifecycle management.
+The Orchestrator is responsible for planning, coordination, Evidence planning, review preparation, and lifecycle management.
 
-The Executor owns execution notes and produced Artifacts.
+The Executor is responsible for execution notes and produced Artifacts.
 
-Participants SHALL NOT modify content outside their ownership domain except through authorized Protocols.
+The Reviewer is responsible for assigned review.
+
+Participants SHALL NOT modify content outside their responsibility domain except through authorized Protocols.
+
+---
+
+# Intent Envelope Guidance
+
+The Objective defines the desired end state.
+
+Success Criteria define observable conditions of success.
+
+Constraints define conditions that SHALL remain true.
+
+Acceptance Criteria define observable validation conditions for closure and SHOULD support Evidence planning.
+
+Assumptions identify propositions on which planning or execution relies.
+
+Suggested Approaches are non-binding Principal guidance. They SHOULD NOT use `MUST`, `SHALL`, or `REQUIRED` to imply mandatory behavior.
+
+Domain Definitions establish Goal-specific terminology, taxonomies, classifications, identifiers, or qualification rules.
+
+The Orchestrator SHALL evaluate material Assumptions during Planning.
+
+---
+
+# Secret Handling
+
+Secret Material SHALL NOT be stored in this Dossier.
+
+This includes passwords, API keys, access tokens, session cookies, private keys, recovery codes, and other authentication credentials.
+
+Objects MAY state that protected access is available and MAY identify an approved secret-management or delegated authentication mechanism.
+
+Secret values SHALL NOT be copied into Goals, Tasks, Events, Artifacts intended as institutional records, Evidence, Decisions, templates, or this file.
+
+If a secret is discovered in the Dossier:
+
+1. do not reproduce or propagate it;
+2. record the exposure without including the secret value;
+3. notify the Principal or applicable security authority;
+4. treat the credential as potentially compromised;
+5. rotate or revoke it when appropriate.
+
+Removing a secret from the current file does not guarantee removal from Git history, synchronization history, backups, logs, or indexes.
+
+See `MTH-043 Security`.
 
 ---
 
@@ -109,6 +155,8 @@ Participants SHALL NOT modify content outside their ownership domain except thro
 Artifacts are not Evidence.
 
 Evidence is not a Decision.
+
+Acceptance Criteria SHOULD seed Evidence Claims and validation planning.
 
 State transitions requiring governance SHALL be traceable to a Final Decision.
 

@@ -46,7 +46,7 @@ Every Goal SHALL include:
 
 * Identifier
 * Title
-* Owner
+* Orchestrator
 * Principal
 * Current State
 * Created Timestamp
@@ -115,13 +115,13 @@ The Goal is no longer active and is retained for institutional memory.
 
 ---
 
-# Ownership
+# Responsibility
 
-Every Goal SHALL have exactly one Owner.
+Every Goal SHALL identify exactly one Orchestrator.
 
-The Owner is responsible for maintaining the Goal's current status and ensuring that its Success Criteria remain coherent.
+The Orchestrator is responsible for Goal lifecycle coordination, planning, Task decomposition, status maintenance, review preparation, and authorized Goal state transitions.
 
-The Principal retains authority over intent even when operational ownership is delegated.
+The Principal retains authority over the Intent Envelope. Assignment of an Orchestrator does not transfer authority over intent.
 
 ---
 
@@ -193,7 +193,7 @@ Every Goal SHALL have a stable Identifier.
 
 **MTH-010-REQ-002**
 
-Every Goal SHALL have exactly one Owner.
+Every Goal SHALL identify exactly one Orchestrator.
 
 **MTH-010-REQ-003**
 
@@ -217,7 +217,7 @@ Changes to Goal intent SHALL be authorized by the Principal.
 
 **MTH-010-REQ-008**
 
-Every durable Goal representation SHALL define ownership domains.
+Every durable Goal representation SHALL define responsibility domains.
 
 ---
 
@@ -232,7 +232,7 @@ id:
 type: goal
 title:
 principal:
-owner:
+orchestrator:
 state:
 priority:
 created:
@@ -276,7 +276,7 @@ The Goal Object exists to preserve intent.
 
 Without a durable Goal representation, downstream Participants may optimize locally while drifting away from the Principal's desired outcome.
 
-By requiring explicit Success Criteria, ownership, constraints, and Evidence, Méthodos ensures that Goals remain actionable, reviewable, and recoverable.
+By requiring explicit Success Criteria, responsibility boundaries, Constraints, and Evidence, Méthodos ensures that Goals remain actionable, reviewable, and recoverable.
 
 ---
 
@@ -306,22 +306,22 @@ Future specifications will define:
 
 ---
 
-# Ownership Domains
+# Responsibility Domains
 
-A Goal SHALL define ownership domains for its durable representation.
+A Goal SHALL define responsibility domains for its durable representation.
 
-Ownership domains identify which Participants are authorized to modify specific portions of a Goal.
+Responsibility domains identify which Participants are authorized to modify specific portions of a Goal.
 
-Typical ownership domains include:
+Typical responsibility domains include:
 
 - Principal-owned
 - Orchestrator-owned
 - Shared
 - System-generated
 
-Participants SHALL NOT modify content outside their ownership domain except through an explicit Protocol.
+Participants SHALL NOT modify content outside their responsibility domain except through an explicit Protocol.
 
-Ownership domains protect Goal intent while allowing collaborative maintenance of operational state.
+Responsibility domains protect Goal intent while allowing collaborative maintenance of operational state.
 
 ---
 
