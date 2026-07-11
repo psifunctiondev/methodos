@@ -4,7 +4,7 @@
 
 **Title:** Terminology
 
-**Version:** 0.1.0
+**Version:** 0.1.2
 
 **Status:** Draft
 
@@ -30,7 +30,7 @@ Collaborative systems fail as often through inconsistent language as through inc
 
 Méthodos therefore adopts a single, normative vocabulary.
 
-Every specification, implementation, and participant SHOULD use these definitions consistently.
+Every specification, implementation, and Participant SHOULD use these definitions consistently.
 
 ---
 
@@ -66,7 +66,7 @@ Méthodos SHALL use responsibility-specific fields rather than a generic `owner`
 
 - `principal` identifies the authority that owns and authorizes intent.
 - `orchestrator` identifies the Participant responsible for Goal-level coordination.
-- `executor` identifies the Participant currently responsible for performing a Task.
+- `assigned_to` identifies the Participant currently assigned to perform a Task as Executor.
 - `reviewer` identifies the Participant responsible for review.
 - `steward` or `maintainer` MAY identify ongoing custody of an Artifact or system component.
 
@@ -98,9 +98,67 @@ Goals exist independently of Tasks.
 
 The Principal-owned semantic core of a Goal.
 
-The Intent Envelope defines the Objective, Success Criteria, Constraints, and Acceptance Criteria that must be preserved through planning, delegation, execution, review, and archival.
+The Intent Envelope defines the desired outcome, observable conditions of success, invariants, validation conditions, and other Principal-provided context that must be preserved through planning, delegation, execution, review, and archival.
 
 See `MTH-011 Intent Envelope`.
+
+---
+
+## Objective
+
+The desired end state of a Goal.
+
+An Objective defines what should become true.
+
+An Objective SHOULD NOT prescribe Task decomposition or implementation mechanics unless the prescribed method is itself part of the Principal's intent or a Constraint.
+
+---
+
+## Success Criterion
+
+An observable condition indicating that a Goal has achieved part or all of its intended outcome.
+
+Success Criteria define the conditions of success.
+
+---
+
+## Constraint
+
+A condition that SHALL remain true during execution or in the resulting state.
+
+Constraints restrict permissible plans and execution strategies.
+
+---
+
+## Acceptance Criterion
+
+An observable validation condition used to determine whether the Principal may accept Goal completion.
+
+Acceptance Criteria define the closure threshold and SHOULD support the construction of Evidence Claims and validation activities.
+
+---
+
+## Assumption
+
+A proposition treated as true for purposes of planning or execution but not yet guaranteed by the Intent Envelope.
+
+Material Assumptions SHOULD be validated during Planning.
+
+---
+
+## Suggested Approach
+
+Non-binding implementation guidance supplied by the Principal.
+
+A Suggested Approach preserves useful prior knowledge without constraining the Orchestrator unless the same condition is separately expressed as a Constraint.
+
+---
+
+## Domain Definition
+
+A Goal-specific definition, taxonomy, classification rule, identifier, or semantic distinction required to interpret the Goal consistently.
+
+Domain Definitions provide a shared vocabulary for planning, execution, Evidence, and review.
 
 ---
 
@@ -115,8 +173,6 @@ Every Task SHALL belong to exactly one parent Goal.
 ## Capability
 
 A defined ability that may be exercised by a Participant.
-
-Examples include planning, execution, reasoning, summarization, or software compilation.
 
 Capabilities describe what a Participant can do.
 
@@ -144,11 +200,11 @@ Artifacts SHALL be recoverable after execution has completed.
 
 ## Evidence
 
-Information supporting the claim that a Task has achieved its intended outcome.
+Information supporting a Claim that work has achieved an intended outcome or satisfied a validation condition.
 
 Evidence MAY include one or more Artifacts.
 
-Completion without Evidence SHALL be considered incomplete.
+Completion without required Evidence SHALL be considered incomplete.
 
 ---
 
@@ -166,9 +222,9 @@ See `MTH-016 Decision`.
 
 ## Protocol
 
-A documented contract governing communication between Participants.
+A documented contract governing communication and behavior between Participants.
 
-Protocols define message structure, expectations, and permissible state transitions.
+Protocols define expectations, responsibilities, and permissible state transitions.
 
 ---
 
@@ -198,6 +254,14 @@ Knowledge Repositories outlive individual Participants.
 
 ---
 
+## Dossier
+
+A durable Goal-centered body of institutional knowledge maintained within a Knowledge Repository.
+
+A Dossier contains the Objects, operational history, Evidence, Decisions, and supporting information required to understand and govern a Goal.
+
+---
+
 ## Coordination Fabric
 
 A communication substrate responsible for coordinating Participants.
@@ -220,7 +284,7 @@ The process of performing work in pursuit of a Task.
 
 Execution begins after planning.
 
-Execution concludes only when Evidence has been produced or the Task has entered another terminal State.
+Execution concludes only when required outputs and Evidence have been produced or the Task has entered another terminal State.
 
 ---
 
@@ -245,7 +309,7 @@ Example:
 
 uses two defined concepts.
 
-Whereas
+Whereas:
 
 > "The task became difficult."
 
@@ -275,8 +339,6 @@ Future revisions may define additional concepts including:
 
 * Policy
 * Resource
-* Session
-* Constraint
 * Objective Metric
 * Risk
 * Dependency
@@ -287,7 +349,8 @@ These concepts are intentionally deferred until later specifications establish t
 
 # Revision History
 
-| Version | Date          | Notes                                                                                     |
-| ------- | ------------- | ----------------------------------------------------------------------------------------- |
-| 0.1.0   | Initial draft | First publication                                                                          |
-| 0.1.1   | Round 3       | Added `Intent Envelope` and `Decision` to Normative Definitions (moved from round-3 diff) |
+| Version | Date | Notes |
+|---|---|---|
+| 0.1.0 | Initial draft | First publication |
+| 0.1.1 | Round 3 | Added Intent Envelope and Decision to Normative Definitions |
+| 0.1.2 | 2026-07-11 | Added Intent Envelope field semantics, Suggested Approach, Domain Definition, Dossier, and responsibility-specific assignment terminology |

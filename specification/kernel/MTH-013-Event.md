@@ -106,13 +106,15 @@ Events SHALL reference at least one Object.
 
 ---
 
-# Ownership
+# Creator Provenance
 
-Events have a Creator but not an Owner.
+Every Event SHALL preserve Creator provenance.
+
+The Creator identifies the Participant or system component that recorded the occurrence.
 
 Once recorded, Events become part of the shared institutional history.
 
-No Participant owns an Event after creation.
+Creator provenance does not grant authority to modify an Event.
 
 ---
 
