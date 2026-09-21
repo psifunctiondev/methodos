@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+
+# Secrets (skill reads OP token from env, but never check in real ones)
+.env
+.env.local
+*.key
+*.secret
+
+# Build / test
+.pytest_cache/
+.coverage
+htmlcov/
