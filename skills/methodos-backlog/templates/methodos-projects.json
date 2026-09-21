@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "managed_by_field_id": 3,
+  "managed_by_option_id": 9,
+  "methodos_sequence_field_id": 4,
+  "discord_thread_id_field_id": 5,
+  "methodos_epic_number_field_id": 6,
+  "methodos_story_number_field_id": 7,
+  "default_sort": [["priority", "desc"], ["dueDate", "asc"], ["id", "asc"]],
+  "notes": "Field/option IDs are the OP custom field numbers: managed_by (id 3, option 9) tags a project as Methodos-managed; methodos_sequence (id 4) is the integer priority rank on User Story WPs; discord_thread_id (id 5) is the per-project Discord thread ID, opt-in per project; methodos_epic_number (id 6, Epic type) and methodos_story_number (id 7, User Story type) compose the stable display_id 'eN-sM'. Update IDs if you recreate fields/options in OP admin. Copy this template to ~/.openclaw/workspace/methodos/methodos-projects.json on first use."
+}
